@@ -46,8 +46,10 @@
 #include <KCardTheme>
 // KF
 #include <KAboutData>
+#ifndef Q_OS_ANDROID
 #include <KCrash>
 #include <KDBusService>
+#endif
 #include <KLocalizedString>
 // Qt
 #include <QApplication>
@@ -56,6 +58,7 @@
 #include <QDomDocument>
 #include <QElapsedTimer>
 #include <QFile>
+#include <QIcon>
 #include <QRandomGenerator>
 #include <QStandardPaths>
 #include <QTime>
@@ -302,12 +305,21 @@ int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
 
+#ifdef Q_OS_ANDROID
+    // There is no icon theme on Android, use the icons bundled into the
+    // executable, see android/AndroidData.cmake
+    QIcon::setThemeSearchPaths({QStringLiteral(":/icons")});
+    QIcon::setThemeName(QStringLiteral("breeze"));
+#endif
+
     KLocalizedString::setApplicationDomain(QByteArrayLiteral("kpat"));
 
     KAboutData aboutData = fillAboutData();
     KAboutData::setApplicationData(aboutData);
 
+#ifndef Q_OS_ANDROID
     KCrash::initialize();
+#endif
 
     // Create a KLocale earlier than normal so that we can use i18n to translate
     // the names of the game types in the help text.
@@ -363,9 +375,13 @@ int main(int argc, char **argv)
     } else {
         w->slotShowGameSelectionScreen();
     }
+#ifdef Q_OS_ANDROID
+    w->showMaximized();
+#else
     w->show();
 
     const KDBusService dbusService(KDBusService::Multiple);
+#endif
 
     return app.exec();
 }

@@ -35,10 +35,12 @@ class KLineEdit;
 class QPushButton;
 class QListView;
 
+#ifndef Q_OS_ANDROID
 namespace KNSWidgets
 {
 class Button;
 }
+#endif
 
 class PreviewThread : public QThread
 {
@@ -115,7 +117,9 @@ public:
     CardThemeModel *model;
     QListView *listView;
     KLineEdit *hiddenLineEdit;
+#ifndef Q_OS_ANDROID
     KNSWidgets::Button *newDeckButton;
+#endif
 
     int itemMargin;
     int textHeight;

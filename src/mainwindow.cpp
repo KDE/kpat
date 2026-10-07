@@ -58,8 +58,10 @@
 // KF
 #include <KActionCollection>
 #include <KConfigDialog>
+#ifndef Q_OS_ANDROID
 #include <KHelpClient>
 #include <KIO/StoredTransferJob>
+#endif
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KSharedConfig>
@@ -70,6 +72,7 @@
 #include <QAction>
 #include <QApplication>
 #include <QBuffer>
+#include <QDesktopServices>
 #include <QFileDialog>
 #include <QIcon>
 #include <QKeySequence>
@@ -89,6 +92,15 @@ namespace
 const QUrl dialogUrl(QStringLiteral("kfiledialog:///kpat"));
 const QString saveFileMimeType(QStringLiteral("application/vnd.kde.kpatience.savedgame"));
 const QString legacySaveFileMimeType(QStringLiteral("application/vnd.kde.kpatience.savedstate"));
+
+#ifdef Q_OS_ANDROID
+// There is no KIO on Android. The file dialog hands out either local files or
+// content:// URIs, which QFile can open directly.
+QString androidFileName(const QUrl &url)
+{
+    return url.isLocalFile() ? url.toLocalFile() : url.toString();
+}
+#endif
 }
 
 MainWindow::MainWindow()
@@ -130,6 +142,15 @@ MainWindow::MainWindow()
     statusBar()->addWidget(m_moveCountStatusLabel, 0);
 
     m_showMenubarAction->setChecked(!menuBar()->isHidden());
+
+#ifdef Q_OS_ANDROID
+    // Android may kill KPat while it is in the background without ever
+    // closing the window, so save the game each time KPat leaves the screen.
+    connect(qApp, &QGuiApplication::applicationStateChanged, this, [this](Qt::ApplicationState state) {
+        if (state == Qt::ApplicationSuspended || state == Qt::ApplicationHidden)
+            writeStateFile();
+    });
+#endif
 }
 
 MainWindow::~MainWindow()
@@ -322,6 +343,21 @@ void MainWindow::setupActions()
     m_showMenubarAction = KStandardAction::showMenubar(this, &MainWindow::toggleMenubar, actionCollection());
 
     KStandardAction::fullScreen(this, &MainWindow::toggleFullscreen, this, actionCollection());
+
+#ifdef Q_OS_ANDROID
+    // The Android back button leaves the current game for the game selection
+    // screen, and quits KPat from there.
+    a = new QAction(this);
+    a->setShortcut(Qt::Key_Back);
+    a->setShortcutContext(Qt::WindowShortcut);
+    addAction(a);
+    connect(a, &QAction::triggered, this, [this]() {
+        if (m_dealer)
+            slotShowGameSelectionScreen();
+        else
+            close();
+    });
+#endif
 }
 
 void MainWindow::undoMove()
@@ -343,7 +379,12 @@ void MainWindow::helpGame()
         QString anchor = di->untranslatedBaseName();
         anchor = anchor.toLower();
         anchor = anchor.remove(QLatin1Char('\'')).replace(QLatin1Char('&'), QLatin1String("and")).replace(QLatin1Char(' '), QLatin1Char('-'));
+#ifdef Q_OS_ANDROID
+        // the handbook is not installed on Android, use the online version
+        QDesktopServices::openUrl(QUrl(QLatin1String("https://docs.kde.org/stable_kf6/en/kpat/kpat/rules-specific.html#") + anchor));
+#else
         KHelpClient::invokeHelp(QLatin1String("rules-specific.html#") + anchor);
+#endif
     }
 }
 
@@ -720,7 +761,7 @@ void MainWindow::saveNewToolbarConfig()
     updateGameActionList();
 }
 
-void MainWindow::closeEvent(QCloseEvent *e)
+bool MainWindow::writeStateFile()
 {
     QString stateDirName = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
     QString stateFileName = stateDirName + QLatin1String("/" saved_state_file);
@@ -734,16 +775,21 @@ void MainWindow::closeEvent(QCloseEvent *e)
     // Remove the existing state file, if any.
     stateFile.remove();
 
-    if (m_dealer) {
-        if (Settings::rememberStateOnExit() && !m_dealer->isGameWon()) {
-            stateFile.open(QFile::WriteOnly | QFile::Truncate);
-            m_dealer->saveFile(&stateFile);
-        } else {
-            // If there's a game in progress and we aren't going to save it
-            // then record its statistics, since the DealerScene will be destroyed
-            // shortly.
-            m_dealer->recordGameStatistics();
-        }
+    if (m_dealer && Settings::rememberStateOnExit() && !m_dealer->isGameWon()) {
+        stateFile.open(QFile::WriteOnly | QFile::Truncate);
+        m_dealer->saveFile(&stateFile);
+        return true;
+    }
+    return false;
+}
+
+void MainWindow::closeEvent(QCloseEvent *e)
+{
+    if (!writeStateFile() && m_dealer) {
+        // If there's a game in progress and we aren't going to save it
+        // then record its statistics, since the DealerScene will be destroyed
+        // shortly.
+        m_dealer->recordGameStatistics();
     }
 
     KXmlGuiWindow::closeEvent(e);
@@ -790,13 +836,23 @@ void MainWindow::previousDeal()
 
 bool MainWindow::loadGame(const QUrl &url, bool addToRecentFiles)
 {
+#ifdef Q_OS_ANDROID
+    QFile file(androidFileName(url));
+    if (!file.open(QFile::ReadOnly)) {
+        KMessageBox::error(this, i18n("Downloading file failed: %1", file.errorString()));
+        return false;
+    }
+    const QByteArray data = file.readAll();
+#else
     KIO::StoredTransferJob *job = KIO::storedGet(url);
     if (!job->exec()) {
         KMessageBox::error(this, i18n("Downloading file failed: %1", job->errorString()));
         return false;
     }
+    const QByteArray data = job->data();
+#endif
 
-    QXmlStreamReader xml(job->data());
+    QXmlStreamReader xml(data);
     if (!xml.readNextStartElement()) {
         KMessageBox::error(this, i18n("Error reading XML file: ") + xml.errorString());
         return false;
@@ -834,7 +890,7 @@ bool MainWindow::loadGame(const QUrl &url, bool addToRecentFiles)
     xml.clear();
 
     QBuffer buffer;
-    buffer.setData(job->data());
+    buffer.setData(data);
     buffer.open(QBuffer::ReadOnly);
     bool success = isLegacyFile ? m_dealer->loadLegacyFile(&buffer) : m_dealer->loadFile(&buffer);
 
@@ -896,6 +952,19 @@ void MainWindow::saveGame()
             return;
     }
 
+#ifdef Q_OS_ANDROID
+    QFile file(androidFileName(url));
+    if (!file.open(QFile::WriteOnly | QFile::Truncate)) {
+        KMessageBox::error(this, i18n("Error opening file for writing. Saving failed."));
+        return;
+    }
+    if (dialog && dialog->selectedNameFilter() == legacySaveFileMimeType) {
+        m_dealer->saveLegacyFile(&file);
+    } else {
+        m_dealer->saveFile(&file);
+    }
+    file.close();
+#else
     QFile localFile;
     QTemporaryFile tempFile;
     if (url.isLocalFile()) {
@@ -926,6 +995,7 @@ void MainWindow::saveGame()
             return;
         }
     }
+#endif
 
     m_recentFilesAction->addUrl(url);
 }

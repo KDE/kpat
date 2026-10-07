@@ -1,0 +1,75 @@
+# SPDX-FileCopyrightText: 2026 KPatience Android port contributors
+# SPDX-License-Identifier: CC0-1.0
+
+name: Build
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  android:
+    name: Android APK (arm64)
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    container:
+      # KDE's Android CI image: Android SDK/NDK, host Qt and KF6 tooling for Craft
+      image: invent-registry.kde.org/sysadmin/ci-images/android-qt611
+      options: --user root
+    env:
+      CRAFT_ROOT: /github/home/CraftRoot
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Craft
+        run: |
+          curl -fsSL -o /tmp/CraftBootstrap.py https://raw.githubusercontent.com/KDE/craft/master/setup/CraftBootstrap.py
+          python3 /tmp/CraftBootstrap.py --prefix "$CRAFT_ROOT" --use-defaults
+          # Use the Android-aware blueprint from this repository
+          cp .github/craft/kpat.py "$CRAFT_ROOT/etc/blueprints/locations/craft-blueprints-kde/kde/kdegames/kpat/kpat.py"
+
+      - name: Build dependencies and KPatience
+        run: |
+          . "$CRAFT_ROOT/craft/craftenv.sh"
+          craft --ci-mode --src-dir "$GITHUB_WORKSPACE" kpat
+
+      - name: Create APK
+        run: |
+          . "$CRAFT_ROOT/craft/craftenv.sh"
+          craft --ci-mode --src-dir "$GITHUB_WORKSPACE" --package kpat
+          mkdir -p "$GITHUB_WORKSPACE/apk"
+          find "$CRAFT_ROOT/tmp" -name '*.apk' -exec cp {} "$GITHUB_WORKSPACE/apk/" \;
+          ls -l "$GITHUB_WORKSPACE/apk"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: kpat-android-arm64
+          path: apk/*.apk
+          if-no-files-found: error
+
+  desktop:
+    name: Desktop build and tests (Arch Linux)
+    runs-on: ubuntu-latest
+    container: archlinux:latest
+    steps:
+      - name: Install dependencies
+        run: |
+          pacman -Syu --noconfirm --needed \
+            base-devel git cmake ninja gzip python shared-mime-info \
+            extra-cmake-modules qt6-base qt6-svg qt6-tools \
+            kcompletion kconfig kconfigwidgets kcoreaddons kcrash kdbusaddons kdoctools \
+            kguiaddons ki18n kio knewstuff kwidgetsaddons kxmlgui \
+            libkdegames freecell-solver black-hole-solver
+
+      - uses: actions/checkout@v4
+
+      - name: Build
+        run: |
+          cmake -B build -G Ninja -DBUILD_TESTING=ON
+          cmake --build build
+
+      - name: Test
+        run: |
+          cd build
+          QT_QPA_PLATFORM=offscreen ctest --output-on-failure

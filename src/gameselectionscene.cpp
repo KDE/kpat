@@ -55,7 +55,12 @@ public:
         , m_gameId(id)
         , m_anim(new QPropertyAnimation(this, "fade", this))
         , m_highlightFadeAmount(0)
+#ifdef Q_OS_ANDROID
+        // bundled into the Android build, see android/AndroidData.cmake
+        , m_previewPath(QStringLiteral(":/share/kpat/previews/%1.png").arg(id))
+#else
         , m_previewPath(QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("kpat/previews/%1.png").arg(id)))
+#endif
     {
         setAcceptHoverEvents(true);
         m_anim->setDuration(hoverTransitionDuration);

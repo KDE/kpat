@@ -1,0 +1,18 @@
+[Icon Theme]
+Name=Breeze
+Comment=The few Breeze icons KPatience uses, bundled into the Android build
+Directories=actions/22,apps/48
+
+[actions/22]
+Size=22
+Context=Actions
+Type=Scalable
+MinSize=16
+MaxSize=256
+
+[apps/48]
+Size=48
+Context=Applications
+Type=Scalable
+MinSize=16
+MaxSize=512

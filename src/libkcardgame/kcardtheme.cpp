@@ -55,10 +55,34 @@ public:
     const QDateTime lastModified;
 };
 
+namespace
+{
+QStringList cardDeckDirectories()
+{
+    QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QStringLiteral("carddecks"), QStandardPaths::LocateDirectory);
+#ifdef Q_OS_ANDROID
+    // decks bundled into the Android build, see src/android/AndroidData.cmake
+    dirs << QStringLiteral(":/share/carddecks");
+#endif
+    return dirs;
+}
+
+QString locateIndexFile(const QString &dirName)
+{
+    const QString relativePath = QStringLiteral("carddecks/%1/index.desktop").arg(dirName);
+    QString path = QStandardPaths::locate(QStandardPaths::GenericDataLocation, relativePath);
+#ifdef Q_OS_ANDROID
+    if (path.isEmpty() && QFile::exists(QLatin1String(":/share/") + relativePath))
+        path = QLatin1String(":/share/") + relativePath;
+#endif
+    return path;
+}
+}
+
 QList<KCardTheme> KCardTheme::findAll()
 {
     QList<KCardTheme> result;
-    const QStringList indexFiles = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QStringLiteral("carddecks"), QStandardPaths::LocateDirectory);
+    const QStringList indexFiles = cardDeckDirectories();
     for (const QString &index : indexFiles) {
         const QStringList entries = QDir(index).entryList(QDir::Dirs | QDir::NoDotAndDotDot);
         for (const QString &d : entries) {
@@ -77,7 +101,7 @@ QList<KCardTheme> KCardTheme::findAll()
 QList<KCardTheme> KCardTheme::findAllWithFeatures(const QSet<QString> &neededFeatures)
 {
     QList<KCardTheme> result;
-    const QStringList indexFiles = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QStringLiteral("carddecks"), QStandardPaths::LocateDirectory);
+    const QStringList indexFiles = cardDeckDirectories();
     for (const QString &index : indexFiles) {
         const QStringList entries = QDir(index).entryList(QDir::Dirs | QDir::NoDotAndDotDot);
         for (const QString &d : entries) {
@@ -107,7 +131,7 @@ KCardTheme::KCardTheme(const QString &dirName)
     QStringList supportedFeatures;
     QDateTime lastModified;
 
-    QString indexFilePath = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("carddecks/%1/index.desktop").arg(dirName));
+    QString indexFilePath = locateIndexFile(dirName);
     if (!indexFilePath.isEmpty()) {
         desktopFilePath = indexFilePath;
 

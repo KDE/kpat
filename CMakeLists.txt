@@ -30,15 +30,22 @@ include(FindPkgConfig)
 include(FeatureSummary)
 include(GenerateExportHeader)
 
-include(InternalMacros)
+if (NOT ANDROID)
+    include(InternalMacros)
+endif()
 
 option(WITH_BH_SOLVER "Make use of https://github.com/shlomif/black-hole-solitaire for solving Golf" ON)
-option(BUILD_DOC "Whether to build the documentation" ON)
+if (ANDROID)
+    # no KDocTools on Android
+    set(BUILD_DOC_DEFAULT OFF)
+else()
+    set(BUILD_DOC_DEFAULT ON)
+endif()
+option(BUILD_DOC "Whether to build the documentation" ${BUILD_DOC_DEFAULT})
 
 find_package(Qt6 ${QT_MIN_VERSION} REQUIRED COMPONENTS
     Widgets
     Svg
-    Test
     Xml
 )
 
@@ -47,17 +54,37 @@ find_package(KF6 ${KF_MIN_VERSION} REQUIRED COMPONENTS
     Config
     ConfigWidgets
     CoreAddons
-    Crash
-    DBusAddons
     GuiAddons
     I18n
-    KIO
-    NewStuff
     WidgetsAddons
     XmlGui
 )
 
-find_package(KDEGames6 6.0.0 REQUIRED)
+if (ANDROID)
+    # libkdegames, KIO, KNewStuff, KCrash and KDBusAddons are not available on
+    # Android. The few libkdegames classes KPat needs are built from
+    # src/android/kdegames instead, see src/CMakeLists.txt.
+
+    # for sounds, optional
+    find_package(Qt6Multimedia ${QT_MIN_VERSION})
+    set_package_properties(Qt6Multimedia PROPERTIES
+        TYPE OPTIONAL
+        PURPOSE "Playing sounds on Android"
+    )
+else()
+    find_package(Qt6 ${QT_MIN_VERSION} REQUIRED COMPONENTS
+        Test
+    )
+
+    find_package(KF6 ${KF_MIN_VERSION} REQUIRED COMPONENTS
+        Crash
+        DBusAddons
+        KIO
+        NewStuff
+    )
+
+    find_package(KDEGames6 6.0.0 REQUIRED)
+endif()
 
 find_package(FreecellSolver)
 set_package_properties(FreecellSolver PROPERTIES TYPE REQUIRED)
@@ -78,16 +105,24 @@ endif()
 ecm_set_disabled_deprecation_versions(
     QT 6.5
     KF 6.0
-    KDEGAMES 6.0
 )
+if (NOT ANDROID)
+    ecm_set_disabled_deprecation_versions(
+        KDEGAMES 6.0
+    )
+endif()
 
-add_subdirectory(icons)
-add_subdirectory(mimetypes)
-add_subdirectory(previews)
-add_subdirectory(sounds)
-add_subdirectory(themes)
+if (NOT ANDROID)
+    # On Android the data is compiled into the executable instead,
+    # see src/android/AndroidData.cmake
+    add_subdirectory(icons)
+    add_subdirectory(mimetypes)
+    add_subdirectory(previews)
+    add_subdirectory(sounds)
+    add_subdirectory(themes)
+endif()
 add_subdirectory(src)
-if (BUILD_TESTING)
+if (BUILD_TESTING AND NOT ANDROID)
     add_subdirectory(autotests)
 endif()
 

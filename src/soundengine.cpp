@@ -20,10 +20,23 @@
 // Qt
 #include <QStandardPaths>
 
+#ifdef Q_OS_ANDROID
+// bundled into the Android build, see android/AndroidData.cmake
+static QString soundFile(const QString &name)
+{
+    return QLatin1String(":/share/kpat/sounds/") + name;
+}
+#else
+static QString soundFile(const QString &name)
+{
+    return QStandardPaths::locate(QStandardPaths::AppDataLocation, QLatin1String("sounds/") + name);
+}
+#endif
+
 SoundEngine::SoundEngine(QObject *parent)
     : QObject(parent)
-    , m_cardPickedUp(QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("sounds/card-pickup.ogg")))
-    , m_cardPutDown(QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("sounds/card-down.ogg")))
+    , m_cardPickedUp(soundFile(QStringLiteral("card-pickup.ogg")))
+    , m_cardPutDown(soundFile(QStringLiteral("card-down.ogg")))
 {
 }
 

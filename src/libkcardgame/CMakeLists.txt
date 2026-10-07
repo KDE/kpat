@@ -1,4 +1,10 @@
-add_library(kcardgame)
+if (ANDROID)
+    # link it into the kpat executable, one shared library less to package
+    add_library(kcardgame STATIC)
+    set_target_properties(kcardgame PROPERTIES POSITION_INDEPENDENT_CODE ON)
+else()
+    add_library(kcardgame)
+endif()
 
 target_sources(kcardgame PRIVATE
     kabstractcarddeck.cpp
@@ -37,10 +43,15 @@ target_link_libraries(kcardgame
     PRIVATE
         KF6::Completion
         KF6::GuiAddons
-        KF6::NewStuffWidgets
         KF6::I18n
         Qt6::Svg
 )
+if (NOT ANDROID)
+    # downloading new card decks
+    target_link_libraries(kcardgame PRIVATE KF6::NewStuffWidgets)
+endif()
 
 install(TARGETS kcardgame ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
-install(FILES kcardtheme.knsrc DESTINATION ${KDE_INSTALL_KNSRCDIR})
+if (NOT ANDROID)
+    install(FILES kcardtheme.knsrc DESTINATION ${KDE_INSTALL_KNSRCDIR})
+endif()

@@ -128,6 +128,7 @@ private:
     void updateActions();
     void updateGameActionList();
     void updateSoundEngine();
+    bool writeStateFile();
 
     // Members
     QAction *m_leftAction;

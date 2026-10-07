@@ -25,7 +25,9 @@
 #include <KImageCache>
 #include <KLineEdit>
 #include <KLocalizedString>
+#ifndef Q_OS_ANDROID
 #include <KNSWidgets/Button>
+#endif
 // Qt
 #include <QApplication>
 #include <QListView>
@@ -349,6 +351,13 @@ KCardThemeWidget::KCardThemeWidget(const QSet<QString> &requiredFeatures, const 
     connect(d->listView->selectionModel(), &QItemSelectionModel::currentChanged, d, &KCardThemeWidgetPrivate::updateLineEdit);
     connect(d->hiddenLineEdit, &QLineEdit::textChanged, d, &KCardThemeWidgetPrivate::updateListView);
 
+    QVBoxLayout *layout = new QVBoxLayout(this);
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->addWidget(d->listView);
+    layout->addWidget(d->hiddenLineEdit);
+
+#ifndef Q_OS_ANDROID
+    // KNewStuff is not available on Android
     d->newDeckButton = new KNSWidgets::Button(i18nc("@action:button", "Download New Card Decks…"), QStringLiteral("kcardtheme.knsrc"), this);
     QObject::connect(d->newDeckButton, &KNSWidgets::Button::dialogFinished, this, [this](const QList<KNSCore::Entry> &changedEntries) {
         if (!changedEntries.isEmpty()) {
@@ -359,12 +368,8 @@ KCardThemeWidget::KCardThemeWidget(const QSet<QString> &requiredFeatures, const 
     QHBoxLayout *hLayout = new QHBoxLayout();
     hLayout->addStretch(1);
     hLayout->addWidget(d->newDeckButton);
-
-    QVBoxLayout *layout = new QVBoxLayout(this);
-    layout->setContentsMargins(0, 0, 0, 0);
-    layout->addWidget(d->listView);
-    layout->addWidget(d->hiddenLineEdit);
     layout->addLayout(hLayout);
+#endif
 }
 
 KCardThemeWidget::~KCardThemeWidget()

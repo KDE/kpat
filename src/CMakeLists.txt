@@ -82,17 +82,65 @@ file(GLOB ICONS_SRCS "${CMAKE_SOURCE_DIR}/icons/*-apps-kpat.png")
 ecm_add_app_icon(kpat ICONS ${ICONS_SRCS})
 
 target_link_libraries(kpat
-    KDEGames6
-    KF6::Crash
-    KF6::DBusAddons
     KF6::I18n
-    KF6::KIOCore
     KF6::GuiAddons
     KF6::Completion
     KF6::XmlGui
     kcardgame
     FreecellSolver::FreecellSolver
 )
+if (ANDROID)
+    # The parts of libkdegames KPat uses, built into kpat itself
+    target_sources(kpat PRIVATE
+        android/kdegames/colorproxy_p.cpp
+        android/kdegames/colorproxy_p.h
+        android/kdegames/kdegames_logging.cpp
+        android/kdegames/kdegames_logging.h
+        android/kdegames/kgamerenderer.cpp
+        android/kdegames/kgamerenderer.h
+        android/kdegames/kgamerenderer_p.h
+        android/kdegames/kgamerendereditem.cpp
+        android/kdegames/kgamerendereditem.h
+        android/kdegames/kgamerendererclient.cpp
+        android/kdegames/kgamerendererclient.h
+        android/kdegames/kgamesound.cpp
+        android/kdegames/kgamesound.h
+        android/kdegames/kgamestandardaction.cpp
+        android/kdegames/kgamestandardaction.h
+        android/kdegames/kgametheme.cpp
+        android/kdegames/kgametheme.h
+        android/kdegames/kgametheme_p.h
+        android/kdegames/kgamethemeprovider.cpp
+        android/kdegames/kgamethemeprovider.h
+        android/kdegames/kgamethemeselector.cpp
+        android/kdegames/kgamethemeselector.h
+        android/kdegames/kgamethemeselector_p.h
+    )
+    target_include_directories(kpat PRIVATE android/kdegames)
+    target_link_libraries(kpat
+        KF6::ConfigWidgets
+        KF6::WidgetsAddons
+        Qt6::Svg
+        Qt6::Xml
+    )
+    if (TARGET Qt6::Multimedia)
+        target_link_libraries(kpat Qt6::Multimedia)
+        target_compile_definitions(kpat PRIVATE KPAT_HAVE_QTMULTIMEDIA)
+    endif()
+
+    include(android/AndroidData.cmake)
+    kpat_add_android_data(kpat)
+
+    include(ECMAddAndroidApk)
+    ecm_add_android_apk(kpat ANDROID_DIR ${CMAKE_SOURCE_DIR}/android)
+else()
+    target_link_libraries(kpat
+        KDEGames6
+        KF6::Crash
+        KF6::DBusAddons
+        KF6::KIOCore
+    )
+endif()
 if (WITH_BH_SOLVER)
     target_link_libraries(kpat
         BlackHoleSolver::BlackHoleSolver
@@ -103,7 +151,9 @@ install(TARGETS kpat ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
 install(PROGRAMS org.kde.kpat.desktop  DESTINATION  ${KDE_INSTALL_APPDIR})
 install(FILES org.kde.kpat.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
-install(FILES kpat.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
+if (NOT ANDROID)
+    install(FILES kpat.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
+endif()
 
 ecm_qt_install_logging_categories(
     EXPORT KPAT
