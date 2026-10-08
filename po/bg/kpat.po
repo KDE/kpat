@@ -2,7 +2,7 @@
 # Bulgarian translation of KDE.
 # This file is licensed under the GPL.
 #
-# $Id: kpat.po 1748567 2026-09-29 01:30:26Z scripty $
+# $Id: kpat.po 1749544 2026-10-08 01:33:46Z scripty $
 #
 # Zlatko Popov <zlatkopopov@fsa-bg.org>, 2007.
 # Petar Toushkov <pt.launchpad@gmail.com>, 2009.
@@ -19,8 +19,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 25.07.70\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Lokalize 25.07.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -160,97 +160,100 @@ msgstr "Baker's Dozen (персонализиран)"
 #| msgid "Klondike &Options"
 msgctxt "@title:menu"
 msgid "Bizilizi &Options"
-msgstr "Клондайк - &настройки"
+msgstr "Bizilizi &Настройки"
 
 #: bizilizi.cpp:205
-#, kde-format
+#, fuzzy, kde-format
 msgctxt "@item:inmenu bizilizi option"
 msgid "23 Covered Cards"
-msgstr ""
+msgstr "23 покрити карти"
 
 #: bizilizi.cpp:206
-#, kde-format
+#, fuzzy, kde-format
 msgctxt "@item:inmenu bizilizi option"
 msgid "24 Covered Cards"
-msgstr ""
+msgstr "24 покрити карти"
 
 #: bizilizi.cpp:210
-#, kde-format
+#, fuzzy, kde-format
 msgctxt "@title:menu"
 msgid "Pool Analysis"
-msgstr ""
+msgstr "Анализ на пула"
 
 #: bizilizi.cpp:211
-#, kde-format
+#, fuzzy, kde-format
 msgctxt "@item:inmenu analysis option"
 msgid "Off"
-msgstr ""
+msgstr "Изключено"
 
 #: bizilizi.cpp:212
-#, kde-format
+#, fuzzy, kde-format
 msgctxt "@item:inmenu analysis option"
 msgid "Instant"
-msgstr ""
+msgstr "Незабавен"
 
 #: bizilizi.cpp:213
-#, kde-format
+#, fuzzy, kde-format
 msgctxt "@item:inmenu analysis option"
 msgid "Wait 4"
-msgstr ""
+msgstr "Изчакване 4"
 
 #: bizilizi.cpp:214
-#, kde-format
+#, fuzzy, kde-format
 msgctxt "@item:inmenu analysis option"
 msgid "Wait 10"
-msgstr ""
+msgstr "Изчакване 10"
 
 #: bizilizi.cpp:215
-#, kde-format
+#, fuzzy, kde-format
 msgctxt "@item:inmenu analysis option"
 msgid "Wait 18"
-msgstr ""
+msgstr "Изчакване 18"
 
 #: bizilizi.cpp:219
-#, kde-format
+#, fuzzy, kde-format
 msgctxt "@title:menu"
 msgid "Delayed Hints"
-msgstr ""
+msgstr "Закъсняващи подсказки"
 
 #: bizilizi.cpp:220
-#, kde-format
+#, fuzzy, kde-format
 msgctxt "@item:inmenu ridehints option"
 msgid "Off"
-msgstr ""
+msgstr "Изкл."
 
 #: bizilizi.cpp:221
-#, kde-format
+#, fuzzy, kde-format
 msgctxt "@item:inmenu ridehints option"
 msgid "6 Seconds"
-msgstr ""
+msgstr "6 секунди"
 
 #: bizilizi.cpp:222
-#, kde-format
+#, fuzzy, kde-format
 msgctxt "@item:inmenu ridehints option"
 msgid "14 Seconds"
-msgstr ""
+msgstr "14 секунди"
 
 #: bizilizi.cpp:223
-#, kde-format
+#, fuzzy, kde-format
 msgctxt "@item:inmenu ridehints option"
 msgid "22 Seconds"
-msgstr ""
+msgstr "22 секунди"
 
 #: bizilizi.cpp:891
+#, fuzzy
 msgid "Bizilizi"
-msgstr ""
+msgstr "Бизилизи"
 
 #: bizilizi.cpp:894
+#, fuzzy
 msgid "Bizilizi (23 Covered)"
-msgstr ""
+msgstr "Bizilizi (23 покрити)"
 
 #: bizilizi.cpp:895
+#, fuzzy
 msgid "Bizilizi (24 Covered)"
-msgstr ""
+msgstr "Bizilizi (24 покрити)"
 
 #: castle.cpp:319
 msgid "Castle"
