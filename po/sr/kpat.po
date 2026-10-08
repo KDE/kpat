@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-29 00:40+0000\n"
-"PO-Revision-Date: 2026-10-05 01:57+0200\n"
+"PO-Revision-Date: 2026-10-07 11:45+0200\n"
 "Last-Translator: Nemanja Hiršl <nemhirsl@gmail.com>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
 "Language: sr\n"
@@ -851,7 +851,7 @@ msgstr "Дели &врсту"
 #, kde-format
 msgctxt "@action Collect the cards in play, shuffle them and redeal them"
 msgid "&Redeal"
-msgstr "Дели &поново"
+msgstr "Дели по&ново"
 
 #: mainwindow.cpp:242
 #, kde-format
@@ -881,7 +881,7 @@ msgstr "Пуштај звукове"
 #, kde-format
 msgctxt "@option:check"
 msgid "&Remember State on Exit"
-msgstr "&Запамти стање на изласку"
+msgstr "&Запамти стање при изласку"
 
 #: mainwindow.cpp:281
 #, kde-format
