@@ -460,6 +460,15 @@ MoveHint BiziliziSolver::translateMove(const MOVE &m)
     if (m.totype == O_Type) {
         PatPile *target = nullptr;
         PatPile *empty = nullptr;
+
+        // If moving Ace to foundation pile, let's see if preferred pile is empty
+        if (card->rank() == KCardDeck::Ace) {
+            auto prefIndex = Bizilizi::dealphaPos[card->suit()];
+            if (!deal->target[prefIndex]->topCard()) {
+                target = deal->target[prefIndex];
+                return MoveHint(card, target, m.pri);
+            }
+        }
         for (int i = 0; i < 4; ++i) {
             KCard *c = deal->target[i]->topCard();
             if (c) {

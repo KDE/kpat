@@ -42,6 +42,7 @@
 
 #include "biziutils.h"
 #include "dealer.h"
+#include <array>
 
 class BiziPile;
 class KSelectAction;
@@ -100,6 +101,7 @@ protected:
 
 protected Q_SLOTS:
     void animationDone() override;
+    bool tryAutomaticMove(KCard *c) override;
 #ifdef ENABLE_ANALYSIS_WATCHDOG
     void cardStateChanged();
 #endif
@@ -148,6 +150,7 @@ private:
 #ifdef ENABLE_ANALYSIS_WATCHDOG
     QTimer *watchdogTimer;
 #endif
+    static const std::array<int, 4> dealphaPos;
 
     friend class BiziliziSolver;
 };

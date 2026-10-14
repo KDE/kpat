@@ -478,6 +478,10 @@ static bool alternatingCardGreaterThan(const KCard *a, const KCard *b)
     return alernatingCardHash(a) > alernatingCardHash(b);
 }
 
+// I want to prefer alternating color suits on foundation, not alphabetical order
+// c d h s  ->  d c h s
+const std::array<int, 4> Bizilizi::dealphaPos = {1, 0, 2, 3};
+
 void Bizilizi::restart(const QList<KCard *> &cards)
 {
     QList<KCard *> cardList = cards;
@@ -499,14 +503,36 @@ void Bizilizi::restart(const QList<KCard *> &cards)
 
         int rank = c->rank();
         if (rank == KCardDeck::Ace) {
-            //  fixme: remap suit to pile location?
-            addCardForDeal(target[c->suit()], c, 1, play[0]->pos());
+            addCardForDeal(target[dealphaPos[c->suit()]], c, 1, play[0]->pos());
         } else {
             addCardForDeal(bsource, c, 1, play[0]->pos());
         }
     }
+
+    // If poolAnalysis is delayed, reset analysis and hinting timers...
+    if (peekPoolAnalysis > 1)
+        resetHintTimers();
+    // If poolAnalysis is off or instant, do NOT set poolAnalysis timer to fire during deal animation, just redelay hint timer
+    else
+        resetRideHintsTimer();
+
     startDealAnimation();
-    resetRideHintsTimer();
+}
+
+// This override attempts to keep predictable order to suits on Foundation
+bool Bizilizi::tryAutomaticMove(KCard *c)
+{
+    if (c->rank() == KCardDeck::Ace && !c->isAnimated()) {
+        if (allowedToRemove(c->pile(), c) && c == c->pile()->topCard()) {
+            // Is my preferred foundation pile available to maintain (D C H S)?
+            auto preferredFoundationPile = target[dealphaPos[c->suit()]];
+            if (allowedToAdd(preferredFoundationPile, {c})) {
+                moveCardToPile(c, preferredFoundationPile, DURATION_MOVE);
+                return true;
+            }
+        }
+    }
+    return DealerScene::tryAutomaticMove(c);
 }
 
 // slot for menu signal
