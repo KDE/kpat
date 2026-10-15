@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-29 00:42+0000\n"
+"POT-Creation-Date: 2026-10-15 00:42+0000\n"
 "PO-Revision-Date: 2026-09-29 08:47+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -245,15 +245,15 @@ msgctxt "@item:inmenu ridehints option"
 msgid "22 Seconds"
 msgstr "22 שניות"
 
-#: bizilizi.cpp:891
+#: bizilizi.cpp:917
 msgid "Bizilizi"
 msgstr "דיזי ליזי"
 
-#: bizilizi.cpp:894
+#: bizilizi.cpp:920
 msgid "Bizilizi (23 Covered)"
 msgstr "דיזי ליזי (23 מוסתרים)"
 
-#: bizilizi.cpp:895
+#: bizilizi.cpp:921
 msgid "Bizilizi (24 Covered)"
 msgstr "דיזי ליזי (24 מוסתרים)"
 

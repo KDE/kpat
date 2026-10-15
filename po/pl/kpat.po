@@ -1,5 +1,5 @@
 # translation of kpat.po to Polish
-# Version: $Revision: 1748567 $
+# Version: $Revision: 1750352 $
 # translation of kpat.po to
 # translation of kpat.po to
 # translation of kpat.po to
@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-29 00:42+0000\n"
+"POT-Creation-Date: 2026-10-15 00:42+0000\n"
 "PO-Revision-Date: 2025-11-22 21:37+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: pl\n"
@@ -245,15 +245,15 @@ msgctxt "@item:inmenu ridehints option"
 msgid "22 Seconds"
 msgstr ""
 
-#: bizilizi.cpp:891
+#: bizilizi.cpp:917
 msgid "Bizilizi"
 msgstr ""
 
-#: bizilizi.cpp:894
+#: bizilizi.cpp:920
 msgid "Bizilizi (23 Covered)"
 msgstr ""
 
-#: bizilizi.cpp:895
+#: bizilizi.cpp:921
 msgid "Bizilizi (24 Covered)"
 msgstr ""
 

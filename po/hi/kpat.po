@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-29 00:42+0000\n"
+"POT-Creation-Date: 2026-10-15 00:42+0000\n"
 "PO-Revision-Date: 2024-12-15 19:31+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Hindi <kde-i18n-doc@kde.org>\n"
@@ -242,15 +242,15 @@ msgctxt "@item:inmenu ridehints option"
 msgid "22 Seconds"
 msgstr ""
 
-#: bizilizi.cpp:891
+#: bizilizi.cpp:917
 msgid "Bizilizi"
 msgstr ""
 
-#: bizilizi.cpp:894
+#: bizilizi.cpp:920
 msgid "Bizilizi (23 Covered)"
 msgstr ""
 
-#: bizilizi.cpp:895
+#: bizilizi.cpp:921
 msgid "Bizilizi (24 Covered)"
 msgstr ""
 
