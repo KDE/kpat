@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-29 00:40+0000\n"
-"PO-Revision-Date: 2026-01-22 12:16+0100\n"
+"PO-Revision-Date: 2026-10-30 11:08+0100\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.08.5\n"
+"X-Generator: Lokalize 25.04.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -703,7 +703,7 @@ msgstr ""
 #: main.cpp:112
 #, kde-format
 msgid "Shlomi Fish"
-msgstr ""
+msgstr "Pisce Shlomi"
 
 #: main.cpp:112
 #, kde-format
