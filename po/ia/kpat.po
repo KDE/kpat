@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-15 00:42+0000\n"
-"PO-Revision-Date: 2026-01-22 12:16+0100\n"
+"PO-Revision-Date: 2026-10-30 11:39+0100\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.08.5\n"
+"X-Generator: Lokalize 25.04.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -177,31 +177,31 @@ msgstr ""
 #, kde-format
 msgctxt "@item:inmenu analysis option"
 msgid "Off"
-msgstr ""
+msgstr "De-Activate (Off)"
 
 #: bizilizi.cpp:212
 #, kde-format
 msgctxt "@item:inmenu analysis option"
 msgid "Instant"
-msgstr ""
+msgstr "Instante"
 
 #: bizilizi.cpp:213
 #, kde-format
 msgctxt "@item:inmenu analysis option"
 msgid "Wait 4"
-msgstr ""
+msgstr "Pausa 4"
 
 #: bizilizi.cpp:214
 #, kde-format
 msgctxt "@item:inmenu analysis option"
 msgid "Wait 10"
-msgstr ""
+msgstr "Pausa 10"
 
 #: bizilizi.cpp:215
 #, kde-format
 msgctxt "@item:inmenu analysis option"
 msgid "Wait 18"
-msgstr ""
+msgstr "Pausa 18"
 
 #: bizilizi.cpp:219
 #, kde-format
@@ -213,29 +213,29 @@ msgstr ""
 #, kde-format
 msgctxt "@item:inmenu ridehints option"
 msgid "Off"
-msgstr ""
+msgstr "De-Activate (Off)"
 
 #: bizilizi.cpp:221
 #, kde-format
 msgctxt "@item:inmenu ridehints option"
 msgid "6 Seconds"
-msgstr ""
+msgstr "6 Secundas"
 
 #: bizilizi.cpp:222
 #, kde-format
 msgctxt "@item:inmenu ridehints option"
 msgid "14 Seconds"
-msgstr ""
+msgstr "14 Secundas"
 
 #: bizilizi.cpp:223
 #, kde-format
 msgctxt "@item:inmenu ridehints option"
 msgid "22 Seconds"
-msgstr ""
+msgstr "22 Secundas"
 
 #: bizilizi.cpp:917
 msgid "Bizilizi"
-msgstr ""
+msgstr "Bizilizi"
 
 #: bizilizi.cpp:920
 msgid "Bizilizi (23 Covered)"
@@ -799,7 +799,7 @@ msgstr ""
 #: main.cpp:112
 #, kde-format
 msgid "Shlomi Fish"
-msgstr ""
+msgstr "Pisce Shlomi"
 
 #: main.cpp:112
 #, kde-format
