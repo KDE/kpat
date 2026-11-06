@@ -6,7 +6,7 @@
 # Teemu Rytilahti <teemu.rytilahti@kde-fi.org>, 2003, 2008.
 # Ilpo Kantonen <ilpo@iki.fi>, 2005.
 # Mikko Piippo <piippo@cc.helsinki.fi>, 2008.
-# SPDX-FileCopyrightText: 2010, 2019, 2020, 2021, 2022, 2023, 2024, 2025 Tommi Nieminen <translator@legisign.org>
+# SPDX-FileCopyrightText: 2010, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026 Tommi Nieminen <translator@legisign.org>
 # Lasse Liehu <lasse.liehu@gmail.com>, 2010, 2012, 2013, 2014, 2016, 2022.
 # Jorma Karvonen <karvonen.jorma@gmail.com>, 2011.
 #
@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-15 00:42+0000\n"
-"PO-Revision-Date: 2025-11-02 16:22+0200\n"
+"PO-Revision-Date: 2026-10-06 17:12+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
@@ -166,12 +166,10 @@ msgid "Baker's Dozen (Custom)"
 msgstr "Leipurin tusina (mukautettu)"
 
 #: bizilizi.cpp:204
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "Klondike &Options"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Bizilizi &Options"
-msgstr "Kl&ondiken valinnat"
+msgstr "&Bizilizin valinnat"
 
 #: bizilizi.cpp:205
 #, kde-format
@@ -195,65 +193,65 @@ msgstr ""
 #, kde-format
 msgctxt "@item:inmenu analysis option"
 msgid "Off"
-msgstr ""
+msgstr "Ei käytössä"
 
 #: bizilizi.cpp:212
 #, kde-format
 msgctxt "@item:inmenu analysis option"
 msgid "Instant"
-msgstr ""
+msgstr "Välitön"
 
 #: bizilizi.cpp:213
 #, kde-format
 msgctxt "@item:inmenu analysis option"
 msgid "Wait 4"
-msgstr ""
+msgstr "Odota 4"
 
 #: bizilizi.cpp:214
 #, kde-format
 msgctxt "@item:inmenu analysis option"
 msgid "Wait 10"
-msgstr ""
+msgstr "Odota 10"
 
 #: bizilizi.cpp:215
 #, kde-format
 msgctxt "@item:inmenu analysis option"
 msgid "Wait 18"
-msgstr ""
+msgstr "Odota 18"
 
 #: bizilizi.cpp:219
 #, kde-format
 msgctxt "@title:menu"
 msgid "Delayed Hints"
-msgstr ""
+msgstr "Viivästetyt vihjeet"
 
 #: bizilizi.cpp:220
 #, kde-format
 msgctxt "@item:inmenu ridehints option"
 msgid "Off"
-msgstr ""
+msgstr "Ei käytössä"
 
 #: bizilizi.cpp:221
 #, kde-format
 msgctxt "@item:inmenu ridehints option"
 msgid "6 Seconds"
-msgstr ""
+msgstr "6 sekuntia"
 
 #: bizilizi.cpp:222
 #, kde-format
 msgctxt "@item:inmenu ridehints option"
 msgid "14 Seconds"
-msgstr ""
+msgstr "14 sekuntia"
 
 #: bizilizi.cpp:223
 #, kde-format
 msgctxt "@item:inmenu ridehints option"
 msgid "22 Seconds"
-msgstr ""
+msgstr "22 sekuntia"
 
 #: bizilizi.cpp:917
 msgid "Bizilizi"
-msgstr ""
+msgstr "Bizilizi"
 
 #: bizilizi.cpp:920
 msgid "Bizilizi (23 Covered)"
@@ -867,15 +865,12 @@ msgid "Game range end (default start:start if start given)"
 msgstr "Pelialueen loppu (oletus alku:alku, jos alku on annettu)"
 
 #: main.cpp:127
-#, fuzzy, kde-format
-#| msgid ""
-#| "Skip the selection screen and load a particular game type. Valid values "
-#| "are: %1"
+#, kde-format
 msgid ""
 "Skip the selection screen and load a particular game type. Valid values are: "
 "%1"
 msgstr ""
-"Ohita valintanäyttö ja lataa tietty pelityyppi. Kelvollisia arvoja ovat: %1"
+"Ohita valintanäyttö ja lataa tietty pelityyppi. Kelvolliset arvot ovat: %1"
 
 #: main.cpp:129
 #, kde-format
@@ -893,9 +888,7 @@ msgid "File to load"
 msgstr "Ladattava tiedosto"
 
 #: main.cpp:327
-#, fuzzy, kde-format
-#| msgctxt "List separator"
-#| msgid ", "
+#, kde-format
 msgctxt "List separator"
 msgid ", "
 msgstr ", "
