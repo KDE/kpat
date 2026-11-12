@@ -52,7 +52,7 @@ msgstr "Spansk kabal"
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Castles in Spain"
-msgstr "Ugyldige slott\""
+msgstr "Spanske slott"
 
 #: bakersdozen.cpp:73
 #, kde-format
