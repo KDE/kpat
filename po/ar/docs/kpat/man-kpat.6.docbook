@@ -1,0 +1,335 @@
+<?xml version="1.0" ?>
+<!DOCTYPE refentry PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % Arabic "INCLUDE">
+]>
+
+<refentry lang="&language;">
+<refentryinfo>
+<title
+>دليل مستخدم الصبر ك</title>
+<date
+>2021-06-21</date>
+<releaseinfo
+>21.04</releaseinfo>
+<productname
+>ترس كيدي</productname>
+</refentryinfo>
+
+<refmeta>
+<refentrytitle
+><command
+>kpat</command
+></refentrytitle>
+<manvolnum
+>6</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname
+><command
+>kpat</command
+></refname>
+<refpurpose
+>لعبة ورق مسببة للإدمان بشدة</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<cmdsynopsis
+><command
+>kpat</command
+> <group choice="opt"
+><option
+>--solvegame</option
+> <replaceable
+> ملف</replaceable
+></group
+> <group choice="opt"
+><option
+>--solve</option
+> <replaceable
+> رقم</replaceable
+></group
+> <group choice="opt"
+><option
+>--start</option
+> <replaceable
+> رقم</replaceable
+></group
+> <group choice="opt"
+><option
+>--end</option
+> <replaceable
+> رقم</replaceable
+></group
+> <group choice="opt"
+><option
+>--gametype</option
+> <replaceable
+> لعبة</replaceable
+></group
+> <group choice="opt"
+><option
+>--testdir</option
+> <replaceable
+> دليل</replaceable
+></group
+> <group choice="opt"
+><option
+>--generate</option
+></group
+> <group choice="opt"
+><option
+><replaceable
+>ملف</replaceable
+></option
+></group
+> </cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title
+>الوصف</title>
+<para
+>الصبر ك هو ملخص للعديد من ألعاب ورق الصبر المعروفة، بدءًا من كلوندايكي والخلية الحرة الشهيرتين، إلى ألعاب أقل شهرة مثل ساعة الجد ومود3. في المجمل، توجد 12 تنويعة لتمضية الوقت.</para>
+</refsect1>
+
+<refsect1>
+<title
+>الخيارات</title>
+<para
+>يتبع هذا البرنامج صيغة سطر أوامر جنو المعتادة، مع خيارات طويلة تبدأ بشرطتين (`--`). يُدرج أدناه ملخص للخيارات التي يدعمها <command
+>kpat</command
+>.</para>
+
+<variablelist>
+
+<varlistentry>
+<term
+><option
+>-h</option
+> <option
+>--help</option
+></term>
+<listitem
+><para
+>يسرد هذا الخيارات المتاحة في سطر الأوامر</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-v</option
+> <option
+>--version</option
+></term>
+<listitem>
+<para
+>يسرد معلومات الإصدارة لـ الصبر ك</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--solvegame</option
+> <replaceable
+> ملف</replaceable
+></term>
+<listitem>
+<para
+>يحاول إيجاد حل للعبة المحفوظة المعطاة</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--solve</option
+> <replaceable
+> رقم</replaceable
+></term>
+<listitem>
+<para
+>الموزع للحل (تنقيح)</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--start</option
+> <replaceable
+> رقم</replaceable
+></term>
+<listitem>
+<para
+>بداية نطاق اللعبة (مبدئيًا 0:INT_MAX)</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--end</option
+> <replaceable
+> رقم</replaceable
+></term>
+<listitem>
+<para
+>نهاية نطاق اللعبة (مبدئيًا start:start إذا أُعطيت البداية)</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--gametype</option
+> <replaceable
+> لعبة</replaceable
+></term>
+<listitem>
+<para
+>يتخطى شاشة الاختيار ويحمل نوع لعبة معين. القيم الصالحة هي: acesup, fortyeight, freecell, golf, grandfather, grandfathersclock, normandy, klondike, mod3, simplesimon, spider, yukon</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--testdir</option
+> <replaceable
+> دليل</replaceable
+></term>
+<listitem>
+<para
+>دليل يحتوي على حالات اختبار</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--generate</option
+></term>
+<listitem
+><para
+>يولد حالات اختبار عشوائية</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--author</option
+></term>
+<listitem
+><para
+>يسرد مؤلفي الصبر ك في نافذة الطرفية</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--license</option
+></term>
+<listitem
+><para
+>يعرض معلومات الرخصة</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--desktopfile</option
+> <replaceable
+>اسم الملف</replaceable
+></term>
+<listitem
+><para
+>اسم الملف الأساسي لمدخل سطح المكتب لهذا التطبيق.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><replaceable
+>ملف</replaceable
+></term>
+<listitem>
+<para
+>الملف المراد تحميله</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+
+</refsect1>
+
+<refsect1>
+<title
+>انظر أيضًا</title>
+<simplelist>
+<member
+>يتوفر توثيق مستخدم أكثر تفصيلًا في <ulink url="help:/kpat"
+>help:/kpat</ulink
+> (إما بإدخال هذا العنوان في كنكورر، أو بتشغيل <userinput
+><command
+>khelpcenter</command
+> <parameter
+>help:/kpat</parameter
+></userinput
+>).</member>
+<member
+>kf6options(7)</member>
+<member
+>qt6options(7)</member>
+</simplelist>
+</refsect1>
+
+<refsect1>
+<title
+>المؤلف</title>
+
+<para
+>الصبر ك بواسطة:</para>
+<simplelist type="vert">
+<member
+>Paul Olav Tvete</member>
+<member
+>Mario Weilguni <email
+>mweilguni@kde.org</email
+></member>
+<member
+>Matthias Ettrich <email
+>ettrich@kde.org</email
+></member>
+<member
+>Rodolfo Borges <email
+>barrett@labma.ufrj.br</email
+></member>
+<member
+>Peter H. Ruegg <email
+>kpat@incense.org</email
+></member>
+<member
+>Michael Koch <email
+>koch@kde.org</email
+></member>
+<member
+>Marcus Meissner <email
+>mm@caldera.de</email
+></member>
+<member
+>Shlomi Fish <email
+>shlomif@vipe.technion.ac.il</email
+></member>
+<member
+>Stephan Kulow <email
+>coolo@kde.org</email
+></member>
+</simplelist>
+</refsect1>
+</refentry>

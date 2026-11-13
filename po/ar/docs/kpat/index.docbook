@@ -1,0 +1,1440 @@
+<?xml version="1.0" ?>
+<!--IMPORTANT: please note that'do not change this!' notice does not apply to translators -->
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % Arabic "INCLUDE"
+> <!-- change language only here -->
+  <!ENTITY % addindex "IGNORE"
+> <!-- do not change this! -->
+]>
+
+<book id="kpat" lang="&language;"
+> <!-- do not change this! -->
+<bookinfo>
+	<title
+>دليل الصبر ك</title
+> <!-- This is the title of the docbook. Leave as is unless change is necessary.-->
+<!-- List of immidiate authors begins here. -->
+<!--INPORTANT! - All other contributors: [to be determined] -->
+<authorgroup>
+<author
+><firstname
+>Paul Olav</firstname
+> <surname
+>Tvete</surname
+> </author>
+<author
+><firstname
+>Maren</firstname
+> <surname
+>Pakura</surname
+> </author>
+<author
+><firstname
+>Stephan</firstname
+> <surname
+>Kulow</surname
+> </author>
+
+<othercredit role="reviewer"
+><firstname
+>Mike</firstname
+><surname
+>McBride</surname
+> <contrib
+>مُراجِع</contrib>
+<affiliation
+><address
+>&Mike.McBride.mail;</address
+></affiliation>
+</othercredit>
+
+<othercredit role="developer"
+><firstname
+>Paul Olav</firstname
+> <surname
+>Tvete</surname
+> <contrib
+>مطوّر</contrib>
+</othercredit>
+
+<othercredit role="developer"
+><firstname
+>Stephan</firstname
+> <surname
+>Kulow</surname
+> <contrib
+>مطوّر</contrib>
+</othercredit>
+
+<othercredit role="translator"
+><firstname
+>زايد</firstname
+><surname
+>السعيدي</surname
+><affiliation
+><address
+><email
+>zayed.alsaidi@gmail.com</email
+></address
+></affiliation
+><contrib
+>التّرجمة العربيّة</contrib
+></othercredit
+> 
+</authorgroup>
+
+<copyright>
+<year
+>2000</year>
+<holder
+>&Paul-Olav.Tvete;</holder>
+</copyright>
+
+<copyright>
+<year
+>2001</year
+><year
+>2004</year>
+<holder
+>&Maren.Pakura;</holder>
+</copyright>
+
+<copyright>
+<year
+>2007</year>
+<holder
+>&Stephan.Kulow;</holder>
+</copyright>
+
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>2021-06-20</date>
+<releaseinfo
+>ترس كيدي 21.04</releaseinfo>
+
+<!--Short description of this document. Do not change unless necessary!-->
+<abstract>
+	<para
+>يصف هذا التوثيق الإصدارة 21.04 من لعبة الصبر ك</para>
+</abstract>
+
+<!--List of relevant keywords-->
+<keywordset>
+	<keyword
+>كيدي</keyword
+> <!-- do not change this! -->
+	<keyword
+>ألعاب كيدي</keyword
+> <!-- do not change this! -->
+	<keyword
+>لعبة</keyword
+> <!-- do not change this! -->
+	<keyword
+>الصبر ك</keyword
+><!--Application name goes here-->
+<!-- Game genre. Use as many as necessary. Available game types are: Arcade, Board, Card, Dice, Toys, Logic, Strategy.-->
+	<keyword
+>بطاقة</keyword>
+	<keyword
+>لعبة ورق</keyword>
+	<keyword
+>أوراق اللعب</keyword>
+<!--Number of possible players. It can be: One, Two,..., Multiplayer-->
+	<keyword
+>لاعب واحد</keyword>
+<!--All other relevant keywords-->
+	<keyword
+>الصبر</keyword>
+	<keyword
+>سوليتير</keyword>
+</keywordset>
+</bookinfo>
+<!--Content begins here: -->
+<chapter id="introduction"
+><title
+>مقدمة</title
+> <!-- do not change this! -->
+	<note
+><title
+>نوع اللعبة:</title
+><para
+>بطاقة</para
+></note
+><!-- Game genre. Use as many as necessary. Available game types are: Arcade, Board, Card, Dice, Toys, Logic, Strategy.-->
+	<note
+><title
+>عدد اللاعبين الممكنين:</title
+><para
+>واحد</para
+></note
+><!--Number of possible players. It can be: One, Two,..., Multiplayer-->
+
+<!--Short game description starts here. 3-4 sentences (paragraphs)-->
+
+<para
+>للعب لعبة الصبر، تحتاج كما يوحي اسمها، إلى الصبر. ففي الألعاب البسيطة، حيث يعتمد مسار اللعب فقط على كيفية سقوط البطاقات، قد يكون صبرك هو الشيء الوحيد الذي تحتاجه. </para>
+
+<para
+>توجد أيضًا ألعاب صبر تتطلب منك تخطيط استراتيجيتك والتفكير المسبق لتتمكن من الفوز. </para>
+
+<para
+>السمة المشتركة بين جميع هذه الألعاب هي وجوب قيام اللاعب بوضع البطاقات في ترتيب خاص &mdash; عن طريق تحريكها وقلبها وإعادة ترتيبها. </para>
+</chapter>
+
+<chapter id="howto"
+><title
+>كيف تلعب</title
+> <!-- do not change this! -->
+<!--IMPORTANT: If the game has no defined objective, please remove the below line.-->
+	<note
+><title
+>الهدف:</title
+><para
+>أعد ترتيب البطاقات حسب مجموعاتها بأقل عدد ممكن من الحركات.</para
+></note
+><!--Describe the objective of the game.-->
+<!--How to play description. Don't be to specific on rules as they have a separate section in this document-->
+	<para
+>بما أن لعبة الصبر ك توفر لك مجموعة متنوعة من ألعاب السوليتير المختلفة، فلا يوجد دليل واحد "كيف تلعب" يناسبها جميعًا. لذا، من الضروري قراءة كل قسم فرعي من قسم قواعد اللعبة والاستراتيجيات والتلميحات قبل البدء في لعب إصدارة غير مألوفة لديك.</para>
+<para
+>بشكل أساسي، يوجد نوعان من ألعاب السوليتير – الألعاب التي تتيح لك ترتيب البطاقات حسب اللون نفسه، والأخرى التي تتيح ترتيبها بألوان متبادلة. يمكنك بسهولة تحديد النوع الذي تجربه باستخدام طريقة التجربة والخطأ. بمجرد معرفة النوع الذي تتعامل معه، سيصبح الباقي سهلًا؛ استمر في ترتيب البطاقات وإعادة ترتيبها وجمع البطاقات المتطابقة.</para>
+<para
+>منذ البداية لكن، انتبه إلى أكوام بطاقاتك. لا تتعجل في تحريك البطاقات الفردية، انظر إن كانت قد تكون أكثر فائدة في مكان آخر.</para>
+<para
+>للحصول على مساعدة إضافية، يمكنك أيضًا إلقاء نظرة سريعة على شريط الحالة. تحتوي كل لعبة على محلل مدمج يخبرك ما إذا كانت اللعبة التي تلعبها حاليًا قابلة للحل أم لا. إذا رأيت أن المحلل لم يتمكن من إكمال اللعبة الحالية، فمن المرجح أنك لن تتمكن من ذلك أيضًا. عند هذه النقطة، يمكنك إما إعادة تشغيل اللعبة الحالية أو بدء لعبة جديدة تمامًا. </para>
+<note
+><title
+>ملاحظة:</title
+><para
+>تساعدك ألعاب السوليتير على تحسين مدى انتباهك بشكل كبير وتعزيز القدرة على التركيز.</para
+></note>
+</chapter>
+
+<chapter id="rules_and_tips"
+><title
+>قواعد اللعبة واستراتيجياتها وتلميحاتها</title
+> <!-- do not change this! -->
+
+<sect1 id="rules-general">
+	<title
+>قواعد عامة</title>
+	<para
+><indexterm
+><primary
+>مجموعات</primary
+></indexterm
+>تحتوي لعبة الورق على رزمة أو أكثر من البطاقات، تتكون كل رزمة من 52 بطاقة. وتحتوي كل رزمة على المجموعات الأربع:</para>
+	<informaltable pgwide="0" frame="none">
+		<tgroup cols="2"
+><colspec/><colspec/>
+	<tbody>
+		<row valign="middle">
+			<entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="clubs.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>السباتي</entry>
+		</row>
+		<row valign="middle">
+			<entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="spades.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>بستوني</entry>
+		</row>
+		<row valign="middle">
+			<entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="hearts.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>كُبَّة</entry>
+		</row>
+			<row valign="middle"
+><entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="diamonds.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>ديناري</entry>
+		</row>
+	</tbody
+></tgroup>
+	</informaltable>
+	<para
+>تحتوي كل مجموعة من هذه المجموعات على أنواع البطاقات التالية: الآص (A)، واثنان، وثلاثة، وأربعة، وخمسة، وستة، وسبعة، وثمانية، وتسعة، وعشرة، والولد (J)، والبنت (Q)، والشيخ (K).</para>
+	<para
+><indexterm
+><primary
+>عائلة</primary
+></indexterm
+> يُسمى هذا الترتيب الكامل للبطاقات عائلة. توجد عائلات حقيقية وأخرى متبادلة. فالعائلات الحقيقية تكون كلها من مجموعة واحدة (مثل الكبة). أما في العائلات المتبادلة، يتغير لون البطاقة من واحد لآخر، بين اللون الأسود (السباتي والبستوني) واللون الأحمر (الكبة والديناري).</para>
+	<para
+>إذا لم تكن العائلة كاملة فإنها تسمى تسلسلًا.</para>
+	<mediaobject>
+		<imageobject
+><imagedata fileref="playfield.png" format="PNG"/></imageobject>
+		<textobject
+><phrase
+>ميدان لعب الصبر ك</phrase
+></textobject>
+	</mediaobject>
+	<para
+>توجد عدد من الميزات الموجودة في ألعاب الصبر المعتادة. وهي موصوفة أدناه.</para>
+	<variablelist>
+		<varlistentry
+><term
+>1. المخرن</term>
+			<listitem
+><para
+><indexterm
+><primary
+>المخزن</primary
+></indexterm
+>في بداية كل لعبة، تُخلط جميع البطاقات في الرزمة. في بعض الألعاب، لا تُوزع جميع البطاقات. توضع البطاقات المتبقية في المخزن. يمكنك العثور عليه بسهولة، حيث أنه في معظم الألعاب يكون الكومة الوحيدة التي تكون جميع بطاقاتها مقلوبة لأسفل.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry
+><term
+>2. كومة المهملات</term>
+			<listitem
+><para
+><indexterm
+><primary
+>كومة المهملات</primary
+></indexterm
+>تستخدم العديد من الألعاب كومة مهملات للاحتفاظ بالبطاقات المأخوذة من المخزن. عادةً ما يؤدي النقر فوق المخزن إلى قلب البطاقة العلوية ووضعها في كومة المهملات، وعندها تدخل البطاقة في اللعب.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry
+><term
+>3. الأساس</term>
+			<listitem
+><para
+><indexterm
+><primary
+>الأساس</primary
+></indexterm
+>أكوام الأساس هي المكان الذي تريد أن تنتهي إليه بطاقاتك. عادةً ما تُرْبَح اللعبة فقط بمجرد نقل جميع البطاقات إلى أكوام الأساس بالترتيب الصحيح. يختلف عدد أكوام الأساس والترتيب المطلوب من لعبة إلى أخرى.</para>
+                            <para
+>تبدأ معظم الألعاب بأكوام أساس فارغة. سيؤدي اختيار إجراء <guimenuitem
+>إسقاط</guimenuitem
+> من القائمة أو شريط الأدوات إلى جعل الصبر ك يفحص جميع الأكوام وينقل أكبر عدد ممكن من البطاقات إلى أكوام الأساس. إذا نُشِّط إعداد <guimenuitem
+>مكّن الإسقاط الآلي</guimenuitem
+>، فسيحاول الصبر ك إجراء الإسقاط كلما كان ذلك ممكنًا.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry
+><term
+>4. أكوام اللعب</term>
+			<listitem
+><para
+><indexterm
+><primary
+>أكوام اللعب</primary
+></indexterm
+>هذه الأكوام هي التي يحدث فيها إعادة الترتيب الفعلي. تختلف قواعد هذه الأكوام كثيرًا بين الألعاب؛ فبعضها يعرض جميع البطاقات عليها، وبعضها لا يفعل ذلك. كما يسمح بعضها بإزالة بطاقة واحدة فقط، بينما يسمح البعض الآخر بإزالة كل البطاقات، وهكذا.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+</sect1>
+
+<sect1 id="rules-specific"
+><title
+>قواعد الألعاب الفردية</title>
+
+<sect2 id="klondike">
+<title
+>كلوندايكي</title>
+
+<para
+><indexterm
+><primary
+>كلوندايكي</primary
+></indexterm
+> كلوندايكي هي لعبة الصبر الأكثر شهرة &mdash; على الأرجح لأنها تأتي مع نظام تشغيل معروف. تُلعَب برزمة واحدة. </para>
+
+<para
+>الهدف في كلوندايكي هو وضع جميع البطاقات كعائلات حقيقية بترتيب تصاعدي على الأساس. يصبح هذا أسهل بمجرد أن تصبح جميع البطاقات مكشوفة في أكوام اللعب. </para>
+
+<para
+>يجب وضع التسلسلات في أكوام اللعب بترتيب تنازلي. كما يجب أن تتبادل البطاقات الألوان (أحمر وأسود). يمكنك نقل تسلسلات كاملة أو أجزاء منها، إذا كانت البطاقة الأولى تناسب كومة أخرى. </para>
+
+<para
+>يمكنك وضع شيخ (K) من أي لون، أو تسلسل يبدأ بشيخ، في أي كومة فارغة. </para>
+
+<para
+>عند النقر فوق المخزن، تُنْقَل بطاقة واحدة منه إلى كومة المهملات. يمكنك نقلها إلى أكوام اللعب أو الأساس من هناك. إذا كان المخزن فارغًا، يمكنك نقل كومة المهملات بالكامل إلى المخزن بالنقر فوق المخزن الفارغ. </para>
+
+<para
+>يمكنك تصفح البطاقات في المخزن بقدر ما تريد. </para>
+</sect2>
+
+<sect2 id="grandfather">
+<title
+>الجد</title>
+
+<para
+><indexterm
+><primary
+>الجد</primary
+></indexterm
+> عُرِّف بول أولاف تفيتي، المطور الأصلي للصبر ك، بهذه اللعبة بواسطة جده؛ وسُمِّيت تيمنًا به. لا تُعرف ألعاب صبر أخرى تدعم هذا البديل من ألعاب الصبر. </para>
+        
+<para
+>في لعبة الجد، تُوزع رزمة واحدة على سبعة أكوام لعب. تكون بعض البطاقات في كل كومة مقلوبة لأسفل عند التوزيع الأولي. </para>
+
+<para
+>الهدف هو وضع جميع البطاقات كعائلات حقيقية تصاعديًا في أكوام الأساس. </para>
+
+<para
+>يمكنك نقل كل بطاقة في كل كومة إذا كانت تناسب بطاقة أخرى، لبناء تسلسل حقيقي بترتيب تنازلي. على سبيل المثال، يمكنك نقل خمسة البستوني فوق ستة البستوني، بغض النظر عن عدد البطاقات الموجودة فوق خمسة البستوني. يجب فقط أن تكون ستة البستوني في أعلى كومتِها. </para>
+
+<para
+>يمكنك وضع شيخ (K) في كومة فارغة (مرة أخرى، بغض النظر عن عدد البطاقات الموجودة فوقه). </para>
+
+<para
+>إذا لم تكن هناك حركات أخرى ممكنة، يمكنك إعادة توزيع البطاقات. تتكون إعادة التوزيع من جمع البطاقات من أكوام اللعب (كومة تلو الأخرى، من اليسار إلى اليمين) وإعادة توزيعها بالنمط الابتدائي (صفوف متعرجة من البطاقات المقلوبة التي تشكل قمة ثم صفوف من اليسار إلى اليمين من البطاقات المكشوفة في الأعلى). لاحظ أن البطاقات <emphasis
+>لا</emphasis
+> تُخلط وأن البطاقات الموجودة في أكوام الأساس تُترك دون مساس. لا يسمح بإعادة التوزيع أكثر من مرتين في اللعبة الواحدة. </para>
+
+<para
+>على الرغم من أن القواعد بسيطة وتسمح بالعديد من الحركات، إلا أنه لا يزال من الصعب الفوز في اللعبة. وبالرغم من ذلك، أو ربما بسببه، تظل هذه اللعبة ممتعة. </para>
+</sect2>
+
+<sect2 id="aces-up">
+<title
+>أيس أب</title>
+
+<para
+><indexterm
+><primary
+>أيس أب</primary
+></indexterm
+> تتمتع لعبة الصبر هذه بقواعد بسيطة، ومع ذلك يصعب الفوز بها. تُلعَب برزمة واحدة. الهدف هو وضع جميع البطاقات باستثناء الآصات على الأساس. ويجب أن يتبقى آص واحد في كل كومة لعب بعد ذلك. </para>
+
+<para
+>كل بطاقة علوية تكون من المجموعة نفسها (مثل البستوني) ولها قيمة أقل من بطاقة علوية أخرى (مثل ستة البستوني وأربعة البستوني) يمكن وضعها على الأساس بالنقر فوقها. </para>
+
+<para
+>إذا لم تعد قادرًا على نقل أي بطاقات إلى الأساس، يمكنك الحصول على بطاقة جديدة لكل كومة لعب بالنقر فوق المخزن. </para>
+
+<para
+>في الكومة الفارغة، يمكنك نقل أي بطاقة أخرى موجودة في أعلى كومة ما. يجب عليك استخدام هذه الحركات لتفريغ الأكوام؛ بهذه الطريقة، يمكن نقل بطاقات جديدة إلى الأساس. </para>
+
+<para
+>عُطِّلت ميزة الإسقاط الآلي في لعبة الصبر هذه. </para>
+
+</sect2>
+
+<sect2 id="freecell">
+<title
+>الخلية الحرة</title>
+
+<para
+><indexterm
+><primary
+>الخلية الحرة</primary
+></indexterm
+> تُلعَب الخلية الحرة برزمة بطاقات واحدة. لديك أربع خلايا حرة في الزاوية العلوية اليسرى. بالإضافة إلى ذلك، توجد أربع أكوام أساس، وثمانية أكوام لعب في الأسفل. </para>
+
+<para
+>الهدف من اللعبة هو وضع جميع البطاقات كعائلات حقيقية تصاعديًا على الأساس. يمكنك تحقيق ذلك غالبًا إذا كنت تعرف كيفية اللعب: الخلية الحرة قابلة للحل بنسبة 99.9% تقريبًا &mdash; فمن بين أول 32,000 توزيعة، توجد توزيعة واحدة فقط غير قابلة للحل (وهي الرقم 11,982 لمن يريد المعرفة). </para>
+
+<para
+>يجب عليك في أكوام اللعب بناء تسلسلات تنازلية، حيث تتبادل البطاقات الحمراء والسوداء. يمكنك وضع أي بطاقة في خلية حرة. </para>
+
+<para
+>لا يُسمح بتحريك سوى البطاقة العلوية من الكومة أو البطاقة الموجودة في خانة فارغة. ولا يُسمح بتحريك سلسلة من البطاقات إلا إذا كانت هناك خانات أو أكوام فارغة كافية لتحريك البطاقات بشكل فردي، واحدة تلو الأخرى. </para>
+
+<para
+>يُحسب الحد الأقصى لعدد البطاقات التي يمكنك نقلها بواسطة: </para>
+
+<sidebar
+><para
+>(#{الخلايا الحرة} + 1) * 2<superscript
+>#{الأكوام الفارغة}</superscript
+> </para
+></sidebar>
+
+<para
+>التنويعات:</para>
+<itemizedlist>
+  <listitem
+><para
+>لعبة <quote
+>بيكر</quote
+> تشبه <quote
+>الخلية الحرة</quote
+>، ولكن الأكوام تُبنى تنازليًا حسب المجموعة.</para
+></listitem>
+  <listitem
+><para
+><quote
+>إيت أوف</quote
+> تشبه <quote
+>الخلية الحرة</quote
+>، ولكن الأكوام تُبنى تنازليًا حسب المجموعة. لديك 8 احتياطيات وفقط الشيوخ (K) يمكنهم ملء المساحات الفارغة. تُملأ أربعة احتياطيات عند بدء اللعبة.</para
+></listitem>
+  <listitem
+><para
+><quote
+>فورسيل</quote
+> تشبه <quote
+>الخلية الحرة</quote
+>، ولكن الاحتياطيات تُملأ عند بدء اللعبة، وفقط الشيوخ (K) يمكنهم ملء المساحات الفارغة.</para
+></listitem>
+  <listitem
+><para
+><quote
+>أبراج سي هافن</quote
+> تشبه <quote
+>الخلية الحرة</quote
+>، ولكن مع 10 أكوام تُبنى تنازليًا حسب المجموعة، وفقط الشيوخ (K) يمكنهم ملء المساحات الفارغة. يُملأ احتياطيان عند بدء اللعبة.</para
+></listitem>
+</itemizedlist>
+
+<para
+>لحل هذه اللعبة، يُنصح بسحب البطاقات من تسلسلات اللعب بالترتيب نفسه الذي يجب وضعها به في الأساس (أولًا الآصات، ثم الاثنينات، وهكذا). </para>
+
+<para
+>يجب أن تحاول إبقاء أكبر عدد ممكن من الخلايا الحرة و/أو أكوام اللعب فارغة، لتتمكن من بناء تسلسلات طويلة قدر الإمكان. </para>
+
+</sect2>
+
+<sect2 id="mod3">
+<title
+>مود3</title>
+
+<para
+><indexterm
+><primary
+>مود3</primary
+></indexterm
+> تُلعَب مود3 برزمتي بطاقات. الهدف هو وضع جميع البطاقات في الصفوف الثلاثة العلوية. في هذه الصفوف، يجب عليك بناء تسلسلات من اللون نفسه. في الصف الأول، يجب عليك إنشاء التسلسل 2-5-8-J، وفي الصف الثاني التسلسل 3-6-9-Q، وفي الصف الثالث التسلسل 4-7-10-K. يجب أن تكون مجموعة البطاقات هي نفسها في كل تسلسل، لذا لا يمكنك وضع خمسة كبة إلا فوق اثنين كبة. </para>
+
+<para
+>الصف الرابع هو كومة المهملات وكومة اللعب في الوقت نفسه. في أي مكان فارغ، يمكنك وضع أي بطاقة من الصفوف الثلاثة الأولى، أو واحدة من أعلى الصف الرابع. </para>
+
+<para
+>يمكنك وضع الآصات في أكوام الآصات، فوق المخزن. هي موجودة في اللعبة ليكون لديك نقطة انطلاق لإنشاء أماكن فارغة. </para>
+
+<para
+>إذا لم تعد قادرًا على تحريك أي بطاقات، يمكنك الحصول على بطاقات جديدة في الصف الرابع بالنقر فوق المخزن. </para>
+
+<para
+>عُطِّلت ميزة الإسقاط الآلي في لعبة الصبر هذه. </para>
+</sect2>
+
+<sect2 id="normandy">
+<title
+>نورماندي</title>
+
+<para
+><indexterm
+><primary
+>نورماندي</primary
+></indexterm
+> تُلعَب نورماندي برزمتي بطاقات. الهدف هو وضع جميع البطاقات في عائلات حقيقية تصاعديًا على الأساس. </para>
+
+<para
+>يجب أن تكون أكوام اللعب تنازلية، بينما يجب أن تتبادل البطاقات الحمراء والسوداء. يمكنك فقط نقل تسلسلات أو بطاقات مفردة. في أي مكان فارغ، يمكنك وضع أي بطاقة أو تسلسل. </para>
+
+<para
+>إذا لم تعد قادرًا على تحريك أي بطاقات، يمكنك النقر فوق المخزن للحصول على بطاقات جديدة في كل كومة لعب. </para>
+
+<para
+>باستخدام ميزة <guibutton
+>تراجع</guibutton
+>، يمكنك تسهيل اللعبة كثيرًا، حيث يتعين عليك اتخاذ العديد من القرارات وقد يتبين أن بعضها خاطئ بعد النقر فوق المخزن. </para>
+
+<para
+>تُعرف هذه اللعبة أيضًا باسم "Gypsy"، ولكن نظرًا لأن هذا المصطلح يعتبر مسيئًا من قِبَل الكثيرين، فقد اخترنا استخدام الاسم البديل "نورماندي" بدلًا منه. </para>
+
+</sect2>
+
+<sect2 id="forty-and-eight">
+<title
+>أربعون وثمانية</title>
+
+<para
+><indexterm
+><primary
+>أربعون وثمانية</primary
+></indexterm
+> تُلعَب أربعون وثمانية برزمتي بطاقات. الهدف هو وضع جميع البطاقات كعائلات حقيقية على الأساس. </para>
+
+<para
+>يجب أن تكون أكوام اللعب تنازلية. الألوان مهمة؛ فعلى سبيل المثال، لا يمكنك وضع خمسة كبة إلا على ستة كبة. </para>
+
+<para
+>يمكنك فقط نقل بطاقة واحدة من أعلى الكومة. يمكنك وضع أي بطاقة في مكان فارغ. </para>
+
+<para
+>بالنقر فوق المخزن، يمكنك وضع بطاقة في كومة المهملات؛ ومن هناك يمكنك وضعها في كومة لعب أو في الأساس (سيقوم الصبر ك بذلك نيابة عنك). إذا كان المخزن فارغًا، يمكنك إعادة جميع البطاقات من كومة المهملات إلى المخزن. يعمل هذا مرة واحدة فقط؛ فبعد المرة الثانية التي يفرغ فيها المخزن، تنتهي اللعبة. </para>
+
+<para
+>يصعب حل هذه اللعبة. مع بعض الخبرة، يمكنك حل العديد من التوزيعات، خاصة إذا استخدمت ميزة <guibutton
+>تراجع</guibutton
+> من وقت لآخر لتصحيح قراراتك، والقرارات التي يتخذها الصبر ك عند وضع البطاقات في الأساس. </para>
+</sect2>
+
+<sect2 id="simple-simon">
+<title
+>سايمون بسيط</title>
+
+<para
+><indexterm
+><primary
+>سايمون بسيط</primary
+></indexterm
+> تُلعَب سايمون بسيط برزمة بطاقات واحدة. الهدف هو وضع جميع البطاقات كعائلات حقيقية في الأساس. </para>
+
+<para
+>يمكنك بناء تسلسلات في أكوام اللعب. بشكل عام، لا تحتاج إلى الاهتمام بمجموعات البطاقات، ولكن لا يمكن نقل التسلسلات إلا إذا كانت جزءًا من تسلسل حقيقي. على سبيل المثال، يمكنك نقل ستة البستوني إذا كانت خمسة <emphasis
+>البستوني</emphasis
+> فوقها، ولكن لا يمكنك نقلها إذا كانت خمسة <emphasis
+>السباتي</emphasis
+> فوقها. </para>
+
+<para
+>لا يمكن نقل البطاقات إلى الأساس إلا إذا كانت جميع البطاقات الـ 13 لعائلة واحدة موضوعة فوق بعضها البعض في أكوام اللعب. </para>
+
+<tip>
+<title
+>اقتراح</title>
+<para
+>يجب أن تحاول في أقرب وقت ممكن نقل البطاقات إلى الأكوام الصحيحة، لإنشاء أكوام فارغة لوضع البطاقات عليها مؤقتًا، حيث يمكنك وضع أي بطاقة في تلك الأماكن. </para>
+
+<para
+>مع وجود مساحة كافية، يمكنك بناء عائلات في أماكن فارغة بشكل مستقل عن اللون. إذا كانت لديك جميع البطاقات في مثل هذه العائلات، يمكنك فرزها حسب اللون، ليُنْقَلوا بعد ذلك إلى الأساس. </para>
+</tip>
+
+</sect2>
+
+<sect2 id="yukon">
+<title
+>يوكون</title>
+
+<para
+><indexterm
+><primary
+>يوكون</primary
+></indexterm
+> تُلعَب يوكون برزمة بطاقات واحدة. الهدف هو وضع جميع البطاقات في عائلات حقيقية تصاعديًا في الأساس. </para>
+
+<para
+>يجب أن تكون التسلسلات في أكوام اللعب تنازلية مع تبادل البطاقات الحمراء والسوداء. يمكنك تحريك أي بطاقة مكشوفة بغض النظر عن عدد البطاقات الموجودة فوقها. لذا يمكنك وضع خمسة كبة على ستة بستوني إذا كانت تلك الأخيرة في أعلى كومتِها. </para>
+
+<para
+>في أي مكان فارغ، يمكنك وضع شيخ (K) من أي لون (مرة أخرى، بغض النظر عن عدد البطاقات الموجودة فوقه). </para>
+</sect2>
+
+<sect2 id="grandfathers-clock">
+<title
+>ساعة الجد</title>
+
+<para
+><indexterm
+><primary
+>ساعة الجد</primary
+></indexterm
+> ساعة الجد هي لعبة صبر بسيطة. مع بعض الخبرة، يجب أن تكون قادرًا على حل معظم التوزيعات. تُلعَب برزمة بطاقات واحدة. والهدف هو وضع البطاقات كتسلسلات تصاعدية حقيقية في الأساس. </para>
+
+<para
+>يوجد الأساس في الجانب الأيمن ويتكون من 12 كومة تشكل شكل ساعة. الرقم تسعة عند الساعة 12، والبنت (Q) عند الساعة 3، والرقم ثلاثة عند الساعة 6، والرقم ستة عند الساعة 9. </para>
+
+<para
+>توجد 8 أكوام لعب بجانب الساعة، وفي كل منها 5 بطاقات. في أكوام اللعب، يمكنك بناء تسلسلات تنازلية. لون البطاقات غير مهم. يمكنك فقط نقل بطاقة واحدة في المرة الواحدة. </para>
+
+</sect2>
+
+<sect2 id="golf">
+<title
+>غولف</title>
+
+<para
+><indexterm
+><primary
+>غولف</primary
+></indexterm
+> تُلعَب الغولف برزمة بطاقات واحدة. الهدف منها هو نقل جميع البطاقات الموجودة في لوحة اللعب إلى الأساس.</para>
+ 
+<para
+>تخطيط سوليتير غولف بسيط؛ ففي بداية اللعبة، سترى لوحة اللعب. يوجد عليها سبعة أعمدة يحتوي كل منها على خمس بطاقات. ويوجد المخزن والأساس في الأسفل. </para>
+
+<para
+>لعب سوليتير غولف بسيط، ولكنه يتطلب استراتيجية للفوز. البطاقات الموجودة في قاعدة كل عمود في لوحة اللعب متاحة للعب. تُبنى البطاقات المتاحة فوق بطاقة الأساس العلوية في تسلسل تصاعدي أو تنازلي بغض النظر عن المجموعة. إذا لم تكن هناك حركات متاحة، يمكن توزيع بطاقة من المخزن إلى الأساس. تنتهي اللعبة عندما تُوزَّع جميع البطاقات في المخزن ولا تتبقى أي حركات ممكنة.</para>
+
+</sect2>
+
+<sect2 id="spider">
+<title
+>العنكبوت</title>
+
+<para
+><indexterm
+><primary
+>العنكبوت</primary
+></indexterm
+> تُلعَب العنكبوت برزمتي بطاقات. تُوزع البطاقات على 10 أكوام لعب؛ 4 أكوام من 6 بطاقات و6 أكوام من 5 بطاقات لكل منها. يترك هذا 50 بطاقة يمكن توزيعها بمعدل 10 في المرة الواحدة، واحدة لكل كومة لعب. </para>
+
+<para
+>لا يُسمح بتحريك سوى البطاقة العلوية من الكومة أو البطاقة الموجودة في خانة فارغة. ولا يُسمح بتحريك سلسلة من البطاقات إلا إذا توفرت خانات أو أكوام فارغة كافية لتحريك البطاقات بشكل فردي، واحدة تلو الأخرى. في أكوام اللعب، يمكن وضع بطاقة فوق بطاقة أخرى من أي نوع وبقيمة أعلى بواحدة. ويمكن نقل سلسلة من البطاقات المتسلسلة من نفس النوع من كومة لعب إلى أخرى. </para>
+
+<para
+>الهدف من العنكبوت هو وضع جميع البطاقات كعائلات حقيقية تنازليًا بدءًا من الشيوخ (K) في أي مكان في أكوام اللعب. عندما تُبنى مثل هذه العائلة في كومة لعب، تُزَال إلى الزاوية السفلية اليسرى من النافذة. </para>
+
+<para
+>تحدد المستويات المختلفة عدد المجموعات الموزعة - يستخدم المستوى السهل مجموعة واحدة، والمتوسط مجموعتين، والصعب جميع المجموعات الأربع. من السهل نسبيًا الفوز في المستوى السهل، ومن الصعب جدًا الفوز في المستوى الصعب. </para>
+
+</sect2>
+
+<sect2 id="bakers-dozen">
+<title
+>دزينة الخباز</title>
+
+<para
+><indexterm
+><primary
+>دزينة الخباز</primary
+></indexterm
+> تُلعَب دزينة الخباز برزمة بطاقات واحدة. ينبع اسم اللعبة من الأعمدة الـ 13 في اللعبة، وهو العدد الموجود في دزينة الخباز. تُوزع البطاقات في أعمدة من أربع بطاقات في لوحة اللعب، مما ينتج عنه 13 عمودًا. يجب وضع أي شيخ (K) موجود في أعلى أو وسط كل عمود في الأسفل قبل بدء اللعبة. ويُوضَع أي شيخين مختلطين في عمود واحد في الأسفل دون تغيير ترتيبهما. </para>
+
+<para
+>الهدف من اللعبة هو بناء جميع البطاقات في الأساسات الأربعة حسب المجموعة، كل منها من الآص إلى الشيخ. </para>
+
+<para
+>يجب عليك في أكوام اللعب بناء تسلسلات تنازلية، بغض النظر عن المجموعة. يمكنك فقط نقل بطاقة واحدة موجودة في أعلى الكومة. </para>
+
+<para
+>التنويعات:</para>
+<itemizedlist>
+  <listitem
+><para
+>في <quote
+>الصبر الإسباني</quote
+>، يمكن لأي بطاقة ملء المساحات الفارغة في لوحة اللعب. (في بعض المصادر، تُبنى الأساسات بغض النظر عن المجموعة).</para
+></listitem>
+  <listitem
+><para
+><quote
+>قلاع في إسبانيا</quote
+> تشبه <quote
+>الصبر الإسباني</quote
+>، ولكن البطاقات في لوحة اللعب تُبنى تنازليًا بلون متبادل. في بعض التنويعات، تُوزع لوحة اللعب مقلوبة لأسفل باستثناء البطاقات العلوية لكل عمود.</para
+></listitem>
+  <listitem
+><para
+><quote
+>السوليتير البرتغالي</quote
+> هو وسط بين <quote
+>دزينة الخباز</quote
+> و<quote
+>الصبر الإسباني</quote
+> لأن الأعمدة الفارغة لا يمكن ملؤها إلا بالشيوخ (Kings).</para
+></listitem>
+</itemizedlist>
+
+<para
+>لحل هذه اللعبة، يُنصح بسحب البطاقات من تسلسلات اللعب بالترتيب نفسه الذي يجب وضعها به في الأساس (أولًا الآصات، ثم الاثنينات، وهكذا). عادةً، يفضل تجنب إفراغ عمود حتى تصبح البطاقة الأخيرة جاهزة للنقل إلى الأساس. </para>
+
+</sect2>
+
+<sect2 id="castle">
+<title
+>القلعة</title>
+
+<para
+><indexterm
+><primary
+>القلعة</primary
+></indexterm
+> القلعة هي عائلة من ألعاب الصبر أو السوليتير التي تُلعَب عادةً برزمة من 52 ورقة لعب. تُوصف أحيانًا بأنها "خلية حرة بدون خلايا" لأن طريقة لعبها مشابهة ولكن بدون مساحات فارغة إضافية للمناورة في معظم التنويعات. </para>
+
+<para
+>الهدف من اللعبة هو بناء جميع البطاقات في الأساسات الأربعة حسب المجموعة، كل منها من الآص إلى الشيخ. </para>
+
+<para
+>يجب عليك في أكوام اللعب بناء تسلسلات تنازلية، بغض النظر عن المجموعة. يمكنك فقط نقل بطاقة واحدة موجودة في أعلى الكومة. </para>
+
+<para
+>التنويعات:</para>
+<itemizedlist>
+  <listitem
+><para
+><quote
+>القلعة المحاصرة</quote
+>. تُوزع الآصات في الأساسات. يمكن لأي بطاقة ملء المساحات الفارغة.</para
+></listitem>
+  <listitem
+><para
+><quote
+>القلعة</quote
+> تشبه <quote
+>القلعة المحاصرة</quote
+>، ولكن البطاقات المتطابقة تُنقل إلى الأساس أثناء التوزيع، مما يترك أكوامًا غير متساوية.</para
+></listitem>
+  <listitem
+><para
+><quote
+>الشيوخ المنفيون</quote
+> تشبه <quote
+>القلعة</quote
+>، ولكن الشيوخ فقط هم من يمكنهم ملء المساحات الفارغة.</para
+></listitem>
+  <listitem
+><para
+><quote
+>سيج كرافت</quote
+> تشبه <quote
+>القلعة المحاصرة</quote
+>، ولكن مع خلية حرة واحدة.</para
+></listitem>
+  <listitem
+><para
+><quote
+>شوارع وأزقة</quote
+> تشبه <quote
+>القلعة المحاصرة</quote
+>، ولكن الآصات تُدرج في الخلط.</para
+></listitem>
+  <listitem
+><para
+><quote
+>المعقل</quote
+> تشبه <quote
+>شوارع وأزقة</quote
+>، ولكن مع خلية حرة واحدة.</para
+></listitem>
+</itemizedlist>
+
+<para
+>لحل هذه اللعبة، يُنصح بالبناء بالتساوي في الأساسات. حاول إنشاء أكوام فارغة يمكن استخدامها لتسهيل الحركات الطويلة لتحرير البطاقات المدفونة. </para>
+
+</sect2>
+
+</sect1>
+
+</chapter>
+
+<chapter id="interface"
+><title
+>نظرة عامة على الواجهة</title
+> <!-- do not change this! -->
+<!-- This section has to do with menubar. Describe every single entry in order. Use <variablelist
+> and <varlistentry
+>. Split the chapter into sections using <sect1(2,3)
+> for better viewing.-->
+<sect1 id="game-menu">
+	<title
+>قائمة اللعبة</title>
+		<variablelist>
+			<varlistentry id="game-menu-new-game">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>N</keycap
+></keycombo
+></shortcut
+> <guimenu
+>لعبة</guimenu
+> <guimenuitem
+>لعبة جديدة…</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>العودة إلى شاشة اختيار اللعبة.</action
+> يتخلى هذا الإجراء عن التوزيع الجاري.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-new-deal">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+></shortcut
+> <guimenu
+>لعبة</guimenu
+> <guimenuitem
+>توزيع جديد</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>بدء توزيع جديد من نوع اللعبة نفسه.</action
+> يتخلى هذا الإجراء عن التوزيع الجاري.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-new-numbered-deal">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>D</keycap
+></keycombo
+></shortcut
+> <guimenu
+>لعبة</guimenu
+> <guimenuitem
+>توزيع مرقم جديد…</guimenuitem
+> </menuchoice
+></term>
+				<listitem>
+					<para
+><action
+>بدء توزيع جديد بتحديد نوع اللعبة ورقم التوزيع.</action
+> يتخلى هذا الإجراء عن التوزيع الجاري.</para>
+					<para
+>يعطي الصبر ك لكل توزيعة رقمًا تعريفيًا فريدًا (يستخدمه داخليًا لخلط الرزمة عشوائيًا أثناء التوزيع الأولي). تتيح لك هذه الميزة إعادة لعب توزيعة مثيرة للاهتمام أو تجربة توزيعة صعبة للغاية أوصى بها صديق. قد يرغب اللاعبون المتفانون بشكل خاص في "هزيمة" الصبر ك من خلال لعب جميع التوزيعات البالغ عددها 2147483647 بشكل متتالٍ لكل نوع من أنواع الألعاب.</para>
+					<para
+>لاحظ أنه بالنسبة للخلية الحرة، تتطابق أرقام التوزيع في الصبر ك مع تلك الموضحة في <ulink url="http://www.solitairelaboratory.com/fcfaq.html"
+>الأسئلة الشائعة للخلية الحرة</ulink
+>.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-restart-deal">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>F5</keycap
+></shortcut
+> <guimenu
+>لعبة</guimenu
+> <guimenuitem
+>أعد تشغيل التوزيع</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>إعادة اللعبة الحالية إلى حالة توزيعها الأولية.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-load">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>O</keycap
+></keycombo
+></shortcut
+> <guimenu
+>لعبة</guimenu
+> <guimenuitem
+>حمّل…</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>تحميل لعبة محفوظة.</action
+> يتخلى هذا الإجراء عن التوزيع الجاري.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-load-recent">
+				<term
+><menuchoice
+><guimenu
+>لعبة</guimenu
+> <guisubmenu
+>حمّل الحديث</guisubmenu
+> <guimenuitem
+><replaceable
+>قائمة الملفات التي وُصِل إليها حديثًا</replaceable
+></guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>سرد ملفات الحفظ التي وُصِل إليها حديثًا بترتيب آخر استخدام.</action
+> سيؤدي اختيار لعبة إلى تحميلها. يتخلى هذا الإجراء عن التوزيع الجاري.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-save">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>S</keycap
+></keycombo
+></shortcut
+> <guimenu
+>لعبة</guimenu
+> <guimenuitem
+>احفظ باسم…</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>حفظ اللعبة الحالية في القرص.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-statistics">
+				<term
+><menuchoice
+><guimenu
+>لعبة</guimenu
+> <guimenuitem
+>الإحصائيات</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>عرض إحصائيات متنوعة حول أدائك مقسمة حسب نوع اللعبة.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-quit">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>Q</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>لعبة</guimenu
+> <guimenuitem
+>أنهِ</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>إنهاء</action
+> الصبر ك.</para
+></listitem>
+			</varlistentry>
+		</variablelist>
+</sect1>
+<sect1 id="move-menu">
+	<title
+>قائمة حركة</title>
+		<variablelist>
+			<varlistentry id="move-menu-undo">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>Z</keycap
+></keycombo
+></shortcut
+> <guimenu
+>حركة</guimenu
+> <guimenuitem
+>تراجع</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>تراجع</action
+> عن حركتك الأخيرة.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="move-menu-redo">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>Z</keycap
+></keycombo
+></shortcut
+> <guimenu
+>حركة</guimenu
+> <guimenuitem
+>أعد</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>إعادة</action
+> الحركة التي تُورجع عنها للتو بواسطة <guimenuitem
+>تراجع</guimenuitem
+>.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="move-menu-hint">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>H</keycap
+></shortcut
+> <guimenu
+>حركة</guimenu
+> <guimenuitem
+>تلميح</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>تقديم بعض التلميحات حول الحركات الممكنة، في حال علق اللاعب. تُبرز البطاقات التي يمكن نقلها قانونيًا إلى كومة أخرى مؤقتًا.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-demo">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>D</keycap
+></shortcut
+> <guimenu
+>حركة</guimenu
+><guimenuitem
+>عرض توضيحي</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>بدء وضع العرض التوضيحي.</action
+> أثناء وجوده في وضع العرض التوضيحي، يحاول الصبر ك حل التوزيعة نيابة عنك. نَشِّط هذا الإجراء مرة ثانية للخروج من وضع العرض التوضيحي.</para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-draw">
+				<term
+><menuchoice
+><shortcut
+>&Space;</shortcut
+> <guimenu
+>حركة</guimenu
+> <guimenuitem
+>سحب</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>قلب بطاقة أو أكثر من المخزن ونقلها إلى كومة المهملات.</action
+> هذا الإجراء متاح في ألعاب معينة فقط.</para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-deal-row">
+				<term
+><menuchoice
+><shortcut
+>&Enter;</shortcut
+> <guimenu
+>حركة</guimenu
+> <guimenuitem
+>وزّع صفًا</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>قلب عدة بطاقات من المخزن ووضع واحدة في كل كومة لعب.</action
+> هذا الإجراء متاح في ألعاب معينة فقط.</para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-redeal">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>R</keycap
+></shortcut
+> <guimenu
+>حركة</guimenu
+> <guimenuitem
+>أعد التوزيع</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>جمع كل البطاقات المتبقية في اللعب وإعادة توزيعها بدون خلط.</action
+> هذا الإجراء متاح في ألعاب معينة فقط.</para
+></listitem>
+			</varlistentry>
+		</variablelist>
+</sect1>
+<sect1 id="settings-help-menu">
+	<title
+>قائمتا الإعدادات والمساعدة</title>
+<para
+>بصرف النظر عن قائمتي الإعدادات والمساعدة الشائعة في كيدي والموصوفة في فصل <ulink url="help:/fundamentals/menus.html"
+>القائمة</ulink
+> من توثيق أساسيات كيدي، يحتوي الصبر ك على مدخلات القائمة الخاصة بالتطبيق التالية: </para>
+		<variablelist>
+			<varlistentry id="settings-menu-game-type-options">
+				<term
+><menuchoice
+><guimenu
+>إعدادات</guimenu
+> <guisubmenu
+><replaceable
+>خيارات نوع اللعبة</replaceable
+></guisubmenu
+> <guimenuitem
+><replaceable
+>قائمة الخيارات الخاصة بنوع اللعبة</replaceable
+></guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>سرد الخيارات الخاصة بنوع اللعبة الحالي.</action
+> هذه القائمة متاحة في ألعاب معينة فقط (كلوندايكي والعنكبوت).</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-stack-options">
+				<term
+><menuchoice
+><guimenu
+>إعدادات</guimenu
+> <guisubmenu
+>خيارات الكومة</guisubmenu
+> <guimenuitem
+>مقلوبة لأسفل (أصعب)/مكشوفة (أسهل)</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>تتيح لك اختيار ما إذا كان يجب إظهار وجوه البطاقات.</action
+> هذه القائمة متاحة في العنكبوت فقط.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-autodrop">
+				<term
+><menuchoice
+><guimenu
+>إعدادات</guimenu
+> <guimenuitem
+>مكّن الإسقاط الآلي</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>تمكين نقل البطاقات آليًا إلى أكوام الأساس كلما كان ذلك ممكنًا.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-solver">
+				<term
+><menuchoice
+><guimenu
+>إعدادات</guimenu
+> <guimenuitem
+>مكّن المحلل</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>تمكين محرك الحل الآلي.</action
+> عند التمكين، سيحاول المحلل باستمرار تحديد ما إذا كانت حالة اللعبة الحالية قابلة للفوز. قد ترغب في تعطيل المحلل للحفاظ على استخدام المعالج أو البطارية.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-playsounds">
+				<term
+><menuchoice
+><guimenu
+>إعدادات</guimenu
+> <guimenuitem
+>شغل الأصوات</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>تُشغَّل الأصوات عند أخذ البطاقات أو وضعها.</action
+> يُتوقع إضافة المزيد من الأصوات مستقبلًا.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-remember">
+				<term
+><menuchoice
+><guimenu
+>إعدادات</guimenu
+> <guimenuitem
+>تذكر الحالة عند الخروج</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>تمكين الحفظ الآلي لحالة اللعبة عند إغلاق الصبر ك.</action
+> إذا مُكِّن، فسيقوم الصبر ك بتحميل حالة اللعبة السابقة آليًا في المرة التالية التي يُشغَّل فيها.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="help-menu-remember">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>F1</keycap
+></keycombo
+></shortcut
+> <guimenu
+>مساعدة</guimenu
+> <guimenuitem
+>مساعدة في اللعبة الحالية</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>يفتح القسم الخاص بقواعد اللعبة الحالية في هذا الدليل.</para
+></listitem>
+			</varlistentry>
+		</variablelist>
+</sect1>
+
+</chapter>
+
+<chapter id="faq"
+><title
+>الأسئلة الشائعة</title
+> <!-- do not change this! -->
+<!--This chapter is for frequently asked questions. Please use <qandaset
+> <qandaentry
+> only!-->
+<qandaset>
+<!--Following is a standard list of FAQ questions.-->
+<qandaentry>
+ <question
+><para
+>أريد تغيير شكل اللعبة. هل يمكنني ذلك؟ </para
+></question>
+ <answer
+><para
+>يمكنك تغيير وجوه أوراق اللعب وظهورها ومظهر اللعبة. للقيام بذلك، يرجى استخدام <menuchoice
+> <shortcut
+><keycap
+>F10</keycap
+></shortcut
+> <guimenu
+>إعدادات</guimenu
+> <guimenuitem
+>غير المظهر…</guimenuitem
+> </menuchoice
+> في شريط القوائم.</para
+></answer>
+</qandaentry>
+<qandaentry>
+ <question
+><para
+>هل يمكنني استخدام لوحة المفاتيح للعب؟</para
+></question>
+ <answer
+><para
+>لا، لا يدعم الصبر ك اللعب باستخدام لوحة المفاتيح فقط. ومع ذلك، تمتلك معظم خيارات القائمة اختصارات لوحة مفاتيح.</para
+></answer>
+</qandaentry>
+<qandaentry>
+ <question
+><para
+>حتى مع وجود التلميحات، ليس لدي أي فكرة عن كيفية اللعب. ساعدوني!</para
+></question>
+ <answer
+><para
+>بالإضافة إلى ميزة <quote
+>تلميح</quote
+>، يوجد أيضًا وضع <quote
+>عرض توضيحي</quote
+> مفيد، حيث سيقوم الذكاء الاصطناعي المدمج باللعب نيابة عنك. يمكنك المحاولة والمشاهدة والتعلم. ومع ذلك، إذا كانت لديك أي أسئلة، فمن الأفضل قراءة قسمي <link linkend="howto"
+>كيف تلعب</link
+> و <link linkend="rules_and_tips"
+>قواعد اللعبة واستراتيجياتها وتلميحاتها</link
+> في هذا الدليل.</para
+></answer>
+</qandaentry>
+</qandaset>
+</chapter>
+
+<chapter id="credits"
+><title
+>الحقوق والترخيص</title
+> <!-- do not change this! -->
+<!--This chapter is for credits and licenses.-->
+
+<para
+>الصبر ك </para>
+<!--List all the copyright holders here-->
+<para
+>حقوق نشر الصبر ك &copy; 1995-2000 &Paul-Olav.Tvete; </para>
+
+<para
+>حقوق نشر الصبر ك &copy; 2001-2007 &Stephan.Kulow; &Stephan.Kulow.mail; </para>
+
+<para
+>محلل الخلية الحرة بواسطة شلومي فيش <email
+>shlomif@vipe.technion.ac.il</email
+> </para>
+
+<para
+>حقوق نشر التوثيق &copy; 2000 &Paul-Olav.Tvete; </para>
+
+<para
+>حُدث التوثيق لـ كيدي 2.0 بواسطة &Mike.McBride; &Mike.McBride.mail; </para>
+
+<para
+>أُعيدت كتابة التوثيق لـ الصبر ك 2.0 (كيدي 2.1) بواسطة &Maren.Pakura; &Maren.Pakura.mail; </para>
+
+<para
+>دُقِّق التوثيق وحُدِّث لـ الصبر ك 3.6 بواسطة &Richard.Hawthorne; &Richard.Hawthorne.mail; </para>
+
+<para
+>الترجمة: زايد السعيدي <email
+>zayed.alsaidi@gmail.com</email
+></para
+> &underFDL; &underGPL; </chapter>
+
+&documentation.index; 
+</book>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-omittag:t
+sgml-shorttag:t
+sgml-namecase-general:t
+sgml-always-quote-attributes:t
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+-->
