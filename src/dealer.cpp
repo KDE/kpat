@@ -1846,7 +1846,7 @@ void DealerScene::multiStepSubMove(QList<KCard *> cards, KCardPile *pile, QList<
     const int freeCellsPlusOne = freeCells.size() + 1;
     int cardsToSubMove = cards.size() - freeCellsPlusOne;
 
-    QList<QPair<KCardPile *, QList<KCard *>>> tempMoves;
+    QList<std::pair<KCardPile *, QList<KCard *>>> tempMoves;
     while (cardsToSubMove > 0) {
         int tempMoveSize;
         if (cardsToSubMove <= freePiles.size() * freeCellsPlusOne) {
@@ -1871,7 +1871,7 @@ void DealerScene::multiStepSubMove(QList<KCard *> cards, KCardPile *pile, QList<
         Q_ASSERT(!freePiles.isEmpty());
         KCardPile *nextPile = freePiles.takeFirst();
 
-        tempMoves << qMakePair(nextPile, subCards);
+        tempMoves << std::make_pair(nextPile, subCards);
         multiStepSubMove(subCards, nextPile, freePiles, freeCells);
 
         cardsToSubMove -= tempMoveSize;
@@ -1880,15 +1880,15 @@ void DealerScene::multiStepSubMove(QList<KCard *> cards, KCardPile *pile, QList<
     // Move cards to free cells.
     for (int i = 0; i < cards.size() - 1; ++i) {
         KCard *c = cards.at(cards.size() - 1 - i);
-        m_multiStepMoves << qMakePair(c, freeCells[i]);
+        m_multiStepMoves << std::make_pair(c, freeCells[i]);
     }
 
     // Move bottom card to destination pile.
-    m_multiStepMoves << qMakePair(cards.first(), pile);
+    m_multiStepMoves << std::make_pair(cards.first(), pile);
 
     // Move cards from free cells to destination pile.
     for (int i = 1; i < cards.size(); ++i)
-        m_multiStepMoves << qMakePair(cards.at(i), pile);
+        m_multiStepMoves << std::make_pair(cards.at(i), pile);
 
     // If we just moved the bottomost card of the source pile, it must now be
     // empty and we won't need it any more. So we return it to the list of free
@@ -1900,7 +1900,7 @@ void DealerScene::multiStepSubMove(QList<KCard *> cards, KCardPile *pile, QList<
     // If we had to do any submoves, we now move those cards from their
     // temporary pile to the destination pile and free up their temporary pile.
     while (!tempMoves.isEmpty()) {
-        QPair<KCardPile *, QList<KCard *>> m = tempMoves.takeLast();
+        std::pair<KCardPile *, QList<KCard *>> m = tempMoves.takeLast();
         multiStepSubMove(m.second, pile, freePiles, freeCells);
         freePiles << m.first;
     }
@@ -1911,7 +1911,7 @@ void DealerScene::continueMultiStepMove()
     Q_ASSERT(!m_multiStepMoves.isEmpty());
     Q_ASSERT(!isCardAnimationRunning());
 
-    QPair<KCard *, KCardPile *> m = m_multiStepMoves.takeFirst();
+    std::pair<KCard *, KCardPile *> m = m_multiStepMoves.takeFirst();
     KCard *card = m.first;
     KCardPile *dest = m.second;
     KCardPile *source = card->pile();

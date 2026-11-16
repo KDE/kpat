@@ -51,6 +51,8 @@
 #include <QSet>
 #include <QStack>
 #include <QTimer>
+// Std
+#include <utility>
 
 class DealerInfo;
 class MessageBox;
@@ -278,7 +280,7 @@ private:
     QStack<GameState *> m_redoStack;
     QHash<KCard *, CardState> m_lastKnownCardStates;
 
-    QList<QPair<KCard *, KCardPile *>> m_multiStepMoves;
+    QList<std::pair<KCard *, KCardPile *>> m_multiStepMoves;
     int m_multiStepDuration;
 
     QList<PatPile *> m_patPiles;
