@@ -2,7 +2,7 @@
 <component type="desktop-application">
   <id>org.kde.kpat</id>
   <metadata_license>CC0-1.0</metadata_license>
-  <project_license>GPL-2.0+</project_license>
+  <project_license>GPL-2.0-or-later</project_license>
   <developer id="org.kde">
     <name translate="no">KDE</name>
   </developer>
@@ -142,6 +142,8 @@
   <url type="bugtracker">https://bugs.kde.org/enter_bug.cgi?format=guided&amp;product=kpat</url>
   <url type="help">https://docs.kde.org/?application=kpat</url>
   <url type="donation">https://www.kde.org/community/donations/?app=kpat&amp;source=appdata</url>
+  <url type="vcs-browser">https://invent.kde.org/games/kpat/</url>
+  <url type="contribute">https://community.kde.org/Get_Involved</url>
   <launchable type="desktop-id">org.kde.kpat.desktop</launchable>
   <screenshots>
     <screenshot type="default">
