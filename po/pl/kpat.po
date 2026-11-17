@@ -1,5 +1,5 @@
 # translation of kpat.po to Polish
-# Version: $Revision: 1750352 $
+# Version: $Revision$
 # translation of kpat.po to
 # translation of kpat.po to
 # translation of kpat.po to
