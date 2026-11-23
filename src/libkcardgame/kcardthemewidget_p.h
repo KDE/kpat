@@ -27,6 +27,7 @@
 #include <KImageCache>
 // Qt
 #include <QAbstractItemDelegate>
+#include <QMap>
 #include <QMutex>
 #include <QSet>
 #include <QThread>
