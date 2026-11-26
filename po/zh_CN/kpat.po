@@ -14,8 +14,8 @@ msgstr ""
 "X-Crowdin-Project: kdeorg\n"
 "X-Crowdin-Project-ID: 269464\n"
 "X-Crowdin-Language: zh-CN\n"
-"X-Crowdin-File: /kf6-trunk/messages/kpat/kpat.pot\n"
-"X-Crowdin-File-ID: 46119\n"
+"X-Crowdin-File: /kf6-stable/messages/kpat/kpat.pot\n"
+"X-Crowdin-File-ID: 52348\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -150,12 +150,10 @@ msgid "Baker's Dozen (Custom)"
 msgstr ""
 
 #: bizilizi.cpp:204
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "Klondike &Options"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Bizilizi &Options"
-msgstr "纸牌接龙选项(&O)"
+msgstr ""
 
 #: bizilizi.cpp:205
 #, kde-format
@@ -864,13 +862,13 @@ msgstr "要加载的文件"
 #, kde-format
 msgctxt "List separator"
 msgid ", "
-msgstr ""
+msgstr ", "
 
 #: mainwindow.cpp:152
 #, kde-format
 msgctxt "@action Start a new game of a different type"
 msgid "New &Game…"
-msgstr ""
+msgstr "新游戏(&G)…"
 
 #: mainwindow.cpp:158
 #, kde-format
@@ -882,7 +880,7 @@ msgstr "新建牌局(&D)"
 #, kde-format
 msgctxt "@action Start a game by giving its particular number"
 msgid "New &Numbered Deal…"
-msgstr ""
+msgstr "根据编号新建牌局(&N)…"
 
 #: mainwindow.cpp:169
 #, kde-format
@@ -951,7 +949,7 @@ msgstr "允许自动求解(&N)"
 #, kde-format
 msgctxt "@option:check"
 msgid "Play Sounds"
-msgstr ""
+msgstr "播放音效"
 
 #: mainwindow.cpp:264
 #, kde-format
@@ -963,7 +961,7 @@ msgstr "退出时记住游戏状态(&R)"
 #, kde-format
 msgctxt "@action"
 msgid "Generate a Theme Preview Image"
-msgstr ""
+msgstr "生成主题预览图"
 
 #: mainwindow.cpp:286
 #, kde-format
@@ -1091,13 +1089,13 @@ msgstr "解析文件出错。"
 #, kde-format
 msgctxt "@title:window"
 msgid "Load Game"
-msgstr ""
+msgstr "加载游戏"
 
 #: mainwindow.cpp:888
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Game"
-msgstr ""
+msgstr "保存游戏"
 
 #: mainwindow.cpp:904
 #, kde-format
@@ -1126,7 +1124,7 @@ msgstr "余三"
 
 #: normandy.cpp:166
 msgid "Normandy"
-msgstr ""
+msgstr "诺曼底"
 
 #: numbereddealdialog.cpp:36
 #, kde-format
@@ -1172,13 +1170,13 @@ msgstr "2 种花色(中等)"
 #, kde-format
 msgctxt "@item:inmenu spider option"
 msgid "3 Suits (Hard)"
-msgstr ""
+msgstr "3 种花色(困难)"
 
 #: spider.cpp:136
 #, kde-format
 msgctxt "@item:inmenu spider option"
 msgid "4 Suits (Very Hard)"
-msgstr ""
+msgstr "4 种花色(极难)"
 
 #: spider.cpp:469
 msgid "Spider"
@@ -1194,7 +1192,7 @@ msgstr "蜘蛛(2 种花色)"
 
 #: spider.cpp:474
 msgid "Spider (3 Suit)"
-msgstr ""
+msgstr "蜘蛛(3 种花色)"
 
 #: spider.cpp:475
 msgid "Spider (4 Suit)"
